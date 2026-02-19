@@ -82,15 +82,12 @@ function normalizeDoctor(doc) {
   };
 }
 
-/* ----------------------
-  Component
------------------------- */
 export default function DashboardPage() {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // new: patient count from backend (total registered users)
+
   const [patientCount, setPatientCount] = useState(null);
   const [patientCountLoading, setPatientCountLoading] = useState(false);
 
@@ -139,7 +136,7 @@ export default function DashboardPage() {
     };
   }, []);
 
-  // fetch patient count (very simple)
+  // fetch patient count 
   useEffect(() => {
     let mounted = true;
     async function loadPatientCount() {
@@ -222,7 +219,7 @@ export default function DashboardPage() {
   return (
     <div className={s.pageContainer}>
       <div className={s.maxWidthContainer}>
-        {/* Header */}
+  
         <div className={s.headerContainer}>
           <div>
             <h1 className={s.headerTitle}>
@@ -234,7 +231,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Stats Section */}
+ 
         <div className={s.statsGrid}>
           <StatCard
             icon={<Users className="w-6 h-6" />}
@@ -242,7 +239,7 @@ export default function DashboardPage() {
             value={totals.totalDoctors}
           />
 
-          {/* Updated: show count fetched from backend, fallback to derived value */}
+      
           <StatCard
             icon={<UserRoundCheck className="w-6 h-6" />}
             label="Total Registered Users"
@@ -278,7 +275,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* Search */}
+
         <div className="mb-6">
           <label className={s.searchLabel}>
             Search doctors
@@ -417,9 +414,7 @@ export default function DashboardPage() {
   );
 }
 
-/* ----------------------
-  Small components
------------------------- */
+
 function StatCard({ icon, label, value }) {
   return (
     <div className={s.statCard}>
