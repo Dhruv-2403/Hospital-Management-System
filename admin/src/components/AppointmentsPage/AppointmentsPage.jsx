@@ -14,7 +14,7 @@ function formatDateISO(iso) {
       year: "numeric",
     });
   } catch (e) {
-    return iso;
+    return e.message;
   }
 }
 
@@ -30,7 +30,7 @@ function dateTimeFromSlot(slot) {
     base.setHours(hh, mm, 0, 0);
     return base;
   } catch (e) {
-    return new Date(slot.date + "T00:00:00");
+    return e.message;
   }
 }
 

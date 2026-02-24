@@ -153,7 +153,9 @@ export default function AddService({ apiBase, serviceId }) {
     if (imagePreview && imagePreview.startsWith("blob:")) {
       try {
         URL.revokeObjectURL(imagePreview);
-      } catch (err) {}
+      } catch (err) {
+        return err.message
+      }
     }
     setImageFile(f);
     setImagePreview(URL.createObjectURL(f));
@@ -177,7 +179,9 @@ export default function AddService({ apiBase, serviceId }) {
     if (imagePreview && imagePreview.startsWith("blob:")) {
       try {
         URL.revokeObjectURL(imagePreview);
-      } catch (err) {}
+      } catch (err) {
+        return err.message
+      }
     }
     setImagePreview(null);
     setImageFile(null);
@@ -483,7 +487,9 @@ export default function AddService({ apiBase, serviceId }) {
                       if (imagePreview && imagePreview.startsWith("blob:")) {
                         try {
                           URL.revokeObjectURL(imagePreview);
-                        } catch (err) {}
+                        } catch (err) {
+                          return err.message
+                        }
                       }
                       setImagePreview(null);
                       setImageFile(null);
