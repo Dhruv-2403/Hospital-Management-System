@@ -112,7 +112,7 @@ export default function AnimatedDoctorListResponsive({ apiBase }) {
       const body = await res.json().catch(() => null);
 
       if (res.ok && body && body.success) {
-        // accept either body.data (new) or body.doctors (older)
+       
         const list = Array.isArray(body.data)
           ? body.data
           : Array.isArray(body.doctors)
