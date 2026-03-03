@@ -1,12 +1,12 @@
 import React from 'react'
 import Navbar from '../../components/Navbar/Navbar'
-import DashboardPage from '../../components/DashboardPage/DashboardPage'
+import Dashboard from '../../components/DashboardPage/Dashboard'
 
 const Home = () => {
   return (
-    <div>
+    <div>   
       <Navbar/>
-      <DashboardPage/>
+      <Dashboard/>
     </div>
   )
 }

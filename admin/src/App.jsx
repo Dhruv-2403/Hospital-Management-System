@@ -8,8 +8,8 @@ import Add from "./pages/Add/Add";
 import List from "./pages/List/List";
 import Appointments from "./pages/Appointments/Appointments";
 import SerDashboard from "./pages/SerDashboard/SerDashboard";
-import AddSer from "./pages/AddSer/AddSer";
-import ListService from "./pages/ListService/ListService";
+import AddServices from "./pages/AddServices/AddServices";
+import ListServices from "./pages/ListServices/ListServices";
 import ServiceAppointments from "./pages/ServiceAppointments/ServiceAppointments";
 import Hero from "./components/Hero/Hero";
 
@@ -92,7 +92,7 @@ const App = () => {
         path="/add-service"
         element={
           <RequireAuth>
-            <AddSer />
+            <AddServices />
           </RequireAuth>
         }
       />
@@ -100,7 +100,7 @@ const App = () => {
         path="/list-service"
         element={
           <RequireAuth>
-            <ListService />
+            <ListServices />
           </RequireAuth>
         }
       />
