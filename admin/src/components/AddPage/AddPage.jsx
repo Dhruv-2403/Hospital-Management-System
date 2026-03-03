@@ -80,7 +80,7 @@ export default function DoctorDetailPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-// today date in local timezone
+
   const [today] = useState(() => {
     const d = new Date();
 
@@ -104,7 +104,9 @@ export default function DoctorDetailPage() {
     if (form.imagePreview && form.imageFile) {
       try {
         URL.revokeObjectURL(form.imagePreview);
-      } catch (err) {}
+      } catch (err) {
+        console.log(err.message)
+      }
     }
 
     setForm((p) => ({
@@ -119,7 +121,9 @@ export default function DoctorDetailPage() {
     if (form.imagePreview && form.imageFile) {
       try {
         URL.revokeObjectURL(form.imagePreview);
-      } catch (err) {}
+      } catch (err) {
+        console.log(err.message)
+      }
     }
 
     setForm((p) => ({ ...p, imageFile: null, imagePreview: "" }));
@@ -127,7 +131,9 @@ export default function DoctorDetailPage() {
     if (fileInputRef.current) {
       try {
         fileInputRef.current.value = "";
-      } catch (err) {}
+      } catch (err) {
+        console.log(err.message)
+      }
     }
   }
 
@@ -268,7 +274,9 @@ export default function DoctorDetailPage() {
       if (data?.token) {
         try {
           localStorage.setItem("token", data.token);
-        } catch (err) {}
+        } catch (err) {
+          console.log(err.message)
+        }
       }
 
       const doctorFromServer = data?.data
@@ -281,7 +289,9 @@ export default function DoctorDetailPage() {
       if (form.imagePreview && form.imageFile) {
         try {
           URL.revokeObjectURL(form.imagePreview);
-        } catch (err) {}
+        } catch (err) {
+          console.log(err.message)
+        }
       }
 
       setForm({
@@ -306,7 +316,9 @@ export default function DoctorDetailPage() {
       if (fileInputRef.current) {
         try {
           fileInputRef.current.value = "";
-        } catch (err) {}
+        } catch (err) {
+          console.log(err.message)
+        }
       }
 
       setSlotDate("");

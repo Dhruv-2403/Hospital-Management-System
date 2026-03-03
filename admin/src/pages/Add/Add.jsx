@@ -1,4 +1,7 @@
 import React from 'react'
+import Navbar from '../../components/Navbar/Navbar'
+import AddPage from '../../components/AddPage/AddPage'
+
 const Add = () => {
   return (
     <div>
@@ -10,4 +13,4 @@ const Add = () => {
   )
 }
 
-export default Add
+export default Add;
