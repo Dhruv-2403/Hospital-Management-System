@@ -143,7 +143,7 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
       }
     };
     
-  }, []);
+  });
 
   useEffect(() => {
     mountedRef.current = true;
@@ -210,7 +210,7 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
    
-  }, [servicesProp]);
+  },[servicesProp]);
 
 
   const filteredServices = useMemo(() => {
