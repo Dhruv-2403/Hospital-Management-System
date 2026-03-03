@@ -148,7 +148,7 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
   useEffect(() => {
     mountedRef.current = true;
 
-    // if parent supplied services, use them and don't fetch
+   
     if (Array.isArray(servicesProp)) {
       setServices(servicesProp.map(normalizeService));
       setLoading(false);
@@ -159,7 +159,7 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
 
 
     fetchServices({ showLoading: true });
-    // poll while tab is visible (every 10s)
+
     function startPolling() {
       if (pollHandleRef.current) return;
       pollHandleRef.current = setInterval(() => {
@@ -295,7 +295,7 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
           </div>
         </div>
 
-        {/* Stat cards */}
+   \
         <div className={serviceDashboardStyles.statGrid}>
           <StatCard
             icon={<ClipboardList size={18} />}
@@ -449,8 +449,7 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
                         {formatCurrency(earning)}
                       </div>
                     </div>
-
-                    {/* Mobile / stacked */}
+\
                     <div className={serviceDashboardStyles.table.mobileView}>
                       <div className="flex items-start gap-3">
                         <div className={serviceDashboardStyles.table.mobileImage}>

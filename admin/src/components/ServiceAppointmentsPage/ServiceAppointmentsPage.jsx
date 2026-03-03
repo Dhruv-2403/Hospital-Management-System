@@ -1,5 +1,3 @@
-// ServiceAppointmentsPage.jsx
-// Fixed reschedule flow to send `rescheduledTo` and handle backend response shape { success: true, data: updated }
 
 import React, { useEffect, useMemo, useState } from "react";
 import {
@@ -16,14 +14,9 @@ import {
 } from "lucide-react";
 import { serviceAppointmentsStyles } from "../../assets/dummyStyles";
 
-/* ----------------------
-  Config
------------------------- */
 const API_BASE = "http://localhost:4000";
 
-/* ----------------------
-  Helpers
------------------------- */
+
 function formatTwo(n) {
   return String(n).padStart(2, "0");
 }
@@ -68,9 +61,6 @@ function formatTimeDisplay(a) {
   return `${formatTwo(a.hour)}:${formatTwo(a.minute)} ${a.ampm}`;
 }
 
-/* ----------------------
-  Small UI helpers
------------------------- */
 function StatusBadge({ status }) {
   const classes = serviceAppointmentsStyles.statusBadge(status);
   return (
@@ -112,9 +102,7 @@ function Toast({ toasts, removeToast }) {
   );
 }
 
-/* ---------------------------
-   StatusSelect
---------------------------- */
+
 function StatusSelect({ appointment, onChange, disabled }) {
   const terminal =
     appointment.status === "Completed" || appointment.status === "Canceled";
@@ -143,9 +131,6 @@ function StatusSelect({ appointment, onChange, disabled }) {
   );
 }
 
-/* ----------------------
-  Helpers (add these near the other helpers)
------------------------- */
 function getTodayISO() {
   const d = new Date();
   const y = d.getFullYear();
@@ -154,7 +139,7 @@ function getTodayISO() {
   return `${y}-${m}-${day}`;
 }
 function isDateBefore(aDateStr, bDateStr) {
-  // compare using local midnights (consistent with other date parsing in file)
+  
   try {
     const a = new Date(`${aDateStr}T00:00:00`);
     const b = new Date(`${bDateStr}T00:00:00`);
@@ -164,9 +149,7 @@ function isDateBefore(aDateStr, bDateStr) {
   }
 }
 
-/* ---------------------------
-   RescheduleButton (replace existing)
---------------------------- */
+
 function RescheduleButton({ appointment, onReschedule, disabled }) {
   const terminal =
     appointment.status === "Completed" || appointment.status === "Canceled";
@@ -174,7 +157,7 @@ function RescheduleButton({ appointment, onReschedule, disabled }) {
   const todayISO = getTodayISO();
   const { date, time } = useMemo(() => {
     const baseDate = appointment.date || "";
-    // if appointment date is in the past, default to today for selection
+
     const initialDate =
       baseDate && !isDateBefore(baseDate, todayISO) ? baseDate : todayISO;
     return {
@@ -188,9 +171,9 @@ function RescheduleButton({ appointment, onReschedule, disabled }) {
 
   function save() {
     if (!localDate || !localTime) return;
-    // validate date is not in the past
+   
     if (isDateBefore(localDate, getTodayISO())) {
-      // simple feedback — swap to pushToast if you'd rather
+     
       alert("Please choose today or a future date for rescheduling.");
       return;
     }
@@ -198,7 +181,7 @@ function RescheduleButton({ appointment, onReschedule, disabled }) {
     setEditing(false);
   }
   function cancel() {
-    // restore to appointment date if valid, otherwise today
+   
     const baseDate = appointment.date || "";
     const restoreDate =
       baseDate && !isDateBefore(baseDate, getTodayISO())
@@ -260,16 +243,13 @@ function RescheduleButton({ appointment, onReschedule, disabled }) {
 }
 
 
-/* ---------------------------
-  Main Component (fetch + actions)
---------------------------- */
 export default function ServiceAppointmentsPage() {
   const [appointments, setAppointments] = useState([]);
   const [toasts, setToasts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Search & debounce
+
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   useEffect(() => {
@@ -363,7 +343,7 @@ export default function ServiceAppointmentsPage() {
     }
   }
 
-  // auto-hide toasts
+
   useEffect(() => {
     if (toasts.length === 0) return;
     const timers = toasts.map((t) =>
@@ -374,13 +354,13 @@ export default function ServiceAppointmentsPage() {
     return () => timers.forEach((t) => clearTimeout(t));
   }, [toasts]);
 
-  // Utility: normalize server response shape
+  
   function extractUpdated(body) {
-    // Backend may return { success: true, data: updated } or { appointment: updated } or updated directly
+    
     return body?.data || body?.appointment || body || {};
   }
 
-  // change status -> PUT /api/service-appointments/:id with { status }
+  
   async function changeStatusRemote(id, newStatus) {
     const old = appointments.find((a) => a.id === id);
     if (!old) return;
@@ -452,7 +432,6 @@ export default function ServiceAppointmentsPage() {
     }
   }
 
-  // reschedule -> PUT /api/service-appointments/:id with { rescheduledTo: { date, time }, status: "Rescheduled" }
   async function rescheduleRemote(id, dateStr, time24) {
     const appt = appointments.find((a) => a.id === id);
     if (!appt) return;
@@ -461,7 +440,6 @@ export default function ServiceAppointmentsPage() {
     const ampm = hh >= 12 ? "PM" : "AM";
     const timeStr = `${formatTwo(hour12)}:${formatTwo(mm)} ${ampm}`;
 
-    // optimistic local update
     setAppointments((prev) =>
       prev.map((a) =>
         a.id === id
@@ -486,7 +464,6 @@ export default function ServiceAppointmentsPage() {
       const res = await fetch(`${API_BASE}/api/service-appointments/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        // send rescheduledTo (backend expects this) and set status
         body: JSON.stringify({
           rescheduledTo: { date: dateStr, time: timeStr },
           status: "Rescheduled",
@@ -499,7 +476,6 @@ export default function ServiceAppointmentsPage() {
       const body = await res.json();
       const updated = extractUpdated(body);
 
-      // determine which date/time to use (prefer server returned values)
       const finalDate =
         updated.date || updated.rescheduledTo?.date || dateStr || appt.date;
       const finalTimeStr =
@@ -541,7 +517,6 @@ export default function ServiceAppointmentsPage() {
     }
   }
 
-  // cancel -> POST /api/service-appointments/:id/cancel
   async function cancelRemote(id) {
     const appt = appointments.find((a) => a.id === id);
     if (!appt) return;
