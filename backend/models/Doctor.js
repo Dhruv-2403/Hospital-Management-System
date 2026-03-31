@@ -43,7 +43,6 @@ const doctorSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// text search
 doctorSchema.index({ name: "text", specialization: "text" });
 
 const Doctor =
