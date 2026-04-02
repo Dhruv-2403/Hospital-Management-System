@@ -1,13 +1,31 @@
 import { useState } from "react";
-import dummyAppointments from "../../components/AppointmentPage/dummyAppointment";
+import { appointments, bookedServices } from "./dummyAppointment";
 import "./AppointmentPage.css";
 
 export default function AppointmentPage() {
     const [activeTab, setActiveTab] = useState("doctors");
 
-    // Since it's dummy data, we just use it directly
-    const doctorAppointments = dummyAppointments.filter((a) => a.type === "doctor");
-    const serviceAppointments = dummyAppointments.filter((a) => a.type === "service");
+    const doctorAppointments = appointments.map((a) => ({
+        id: "d" + a.id,
+        type: "doctor",
+        status: (a.status || "upcoming").toLowerCase(),
+        date: a.date,
+        time: a.time,
+        subjectName: a.doctor,
+        detail: a.specialization,
+        fee: a.payment === "Online" ? "Paid" : "Cash"
+    }));
+
+    const serviceAppointments = bookedServices.map((a) => ({
+        id: "s" + a.id,
+        type: "service",
+        status: (a.status || "upcoming").toLowerCase(),
+        date: a.date,
+        time: a.time,
+        subjectName: a.name,
+        detail: "Service Booking",
+        fee: a.price
+    }));
 
     const currentList = activeTab === "doctors" ? doctorAppointments : serviceAppointments;
 
@@ -28,7 +46,7 @@ export default function AppointmentPage() {
                 </button>
             </div>
 
-            <div className="appt-list">
+            <div className="appt-list" key={activeTab}>
                 {currentList.length === 0 ? (
                     <p className="no-appts">You have no {activeTab} appointments booked.</p>
                 ) : (

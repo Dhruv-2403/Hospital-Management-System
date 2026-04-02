@@ -1,11 +1,24 @@
+import { useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FaStar, FaMapMarkerAlt, FaClock, FaGraduationCap, FaArrowLeft, FaCalendarAlt } from "react-icons/fa";
 import { doctors } from "../../data/doctorsData";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import "./DoctorDetail.css";
 
 export default function DoctorDetail() {
   const { id } = useParams();
   const doctor = doctors.find((d) => String(d.id) === id);
+  const container = useRef();
+
+  useGSAP(() => {
+    if(!doctor) return;
+    const tl = gsap.timeline();
+    tl.fromTo(".back-link", { x: -20, opacity: 1 }, { x: 0, opacity: 1, duration: 0.3 })
+      .fromTo(".dd-image-section", { scale: 0.9, opacity: 1 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.2)" }, "-=0.1")
+      .fromTo(".dd-info > *", { x: 30, opacity: 1 }, { x: 0, opacity: 1, duration: 0.4, stagger: 0.08 }, "-=0.4")
+      .fromTo(".dd-schedule", { y: 40, opacity: 1 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.2");
+  }, { scope: container, dependencies: [doctor] });
 
   if (!doctor) {
     return (
@@ -19,7 +32,7 @@ export default function DoctorDetail() {
   const scheduleEntries = Object.entries(doctor.schedule || {});
 
   return (
-    <div className="doctor-detail page-pad">
+    <div className="doctor-detail page-pad" ref={container}>
       <Link to="/doctors" className="back-link"><FaArrowLeft /> Back to Doctors</Link>
 
       <div className="dd-grid">

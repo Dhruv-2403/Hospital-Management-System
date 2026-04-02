@@ -1,5 +1,8 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
+import { FaArrowRight, FaCheckCircle, FaHeart } from "react-icons/fa";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import "./Banner.css";
 
 const STATS = [
@@ -10,8 +13,32 @@ const STATS = [
 ];
 
 export default function Banner() {
+    const container = useRef();
+
+    useGSAP(() => {
+        const tl = gsap.timeline();
+
+        tl.fromTo(".banner-badge", { y: -20, opacity: 1 }, { y: 0, opacity: 1, duration: 0.5 })
+            .fromTo(".banner-content h1", { x: -30, opacity: 1 }, { x: 0, opacity: 1, duration: 0.6 }, "-=0.2")
+            .fromTo(".banner-content p", { x: -30, opacity: 1 }, { x: 0, opacity: 1, duration: 0.5 }, "-=0.2")
+            .fromTo(".banner-checks li", { x: -20, opacity: 1 }, { x: 0, opacity: 1, duration: 0.4, stagger: 0.1 }, "-=0.2")
+            .fromTo(".banner-cta", { y: 20, opacity: 1 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.2")
+            .fromTo(".banner-illustration", { scale: 0.8, opacity: 1 }, { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.7)" }, "-=0.5")
+            .fromTo(".stat-item", { y: 30, opacity: 1 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 }, "-=0.3");
+
+        gsap.to(".float-icon", {
+            y: -15,
+            rotation: 5,
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            stagger: 0.4
+        });
+    }, { scope: container });
+
     return (
-        <section className="banner">
+        <section className="banner" ref={container}>
             <div className="banner-inner">
                 <div className="banner-content">
                     <span className="banner-badge">🏥 Trusted Healthcare</span>
@@ -40,6 +67,8 @@ export default function Banner() {
 
                 <div className="banner-illustration">
                     <div className="banner-circle" />
+                    <div className="float-icon fi-1"><FaHeart /></div>
+                    <div className="float-icon fi-2"><FaCheckCircle /></div>
                     <div className="banner-card">
                         <div className="bcard-header">
                             <span className="bcard-dot green" />

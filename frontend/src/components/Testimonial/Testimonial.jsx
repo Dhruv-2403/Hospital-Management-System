@@ -1,5 +1,11 @@
+import { useRef } from "react";
 import { FaQuoteLeft, FaStar } from "react-icons/fa";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import "./Testimonial.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const REVIEWS = [
     { name: "Ananya Sharma", spec: "Cardiology Patient", rating: 5, text: "Dr. Sarah Johnson was absolutely amazing. She explained everything clearly and the booking was seamless." },
@@ -9,8 +15,22 @@ const REVIEWS = [
 ];
 
 export default function Testimonial() {
+    const container = useRef();
+
+    useGSAP(() => {
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: container.current,
+                start: "top 85%",
+            }
+        });
+
+        tl.fromTo(".section-header", { y: 30, opacity: 1 }, { y: 0, opacity: 1, duration: 0.6 })
+          .fromTo(".review-card", { scale: 0.9, opacity: 1 }, { scale: 1, opacity: 1, duration: 0.5, stagger: 0.1, ease: "back.out(1.5)" }, "-=0.3");
+    }, { scope: container });
+
     return (
-        <section className="testimonials">
+        <section className="testimonials" ref={container}>
             <div className="container">
                 <div className="section-header">
                     <p className="section-eyebrow">Stories</p>

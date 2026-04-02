@@ -54,19 +54,21 @@ img { max-width: 100%; display: block; }
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 12px 24px;
   border-radius: var(--radius-sm);
   font-size: 0.95rem;
   font-weight: 600;
-  border: none;
+  border: 2px solid transparent;
   transition: var(--transition);
 }
 .btn-primary {
   background: var(--primary);
   color: var(--white);
+  border-color: var(--primary);
 }
-.btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-primary:hover { background: var(--primary-dark); border-color: var(--primary-dark); transform: translateY(-1px); box-shadow: var(--shadow-md); }
 .btn-outline {
   background: transparent;
   border: 2px solid var(--primary);

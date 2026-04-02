@@ -20,6 +20,7 @@ import EditProfile from "./pages/EditProfile/EditProfile";
 import DHome from "./pages/DHome/DHome";
 import List from "./pages/List/List";
 
+import ScrollToTop from "./components/ScrollToTop";
 import "./index.css";
 
 const DOCTOR_PATHS = ["/doctor/dashboard", "/doctor/list", "/doctor/edit-profile"];
@@ -30,6 +31,7 @@ export default function App() {
 
   return (
     <>
+      <ScrollToTop />
       {!isDoctorPortal && <Navbar />}
       <main>
         <Routes>

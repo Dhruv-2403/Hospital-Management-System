@@ -1,13 +1,33 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { FaStar, FaArrowRight } from "react-icons/fa";
 import { doctors } from "../../data/doctorsData";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import "./HomeDoctors.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function HomeDoctors() {
     const featured = doctors.slice(0, 8);
+    const container = useRef();
+
+    useGSAP(() => {
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: container.current,
+                start: "top 80%",
+            }
+        });
+
+        tl.from(".section-header", { y: 30, duration: 0.6 })
+            .from(".doc-card", { y: 40, duration: 0.5, stagger: 0.1 }, "-=0.3")
+            .from(".home-doctors-cta", { scale: 0.9, duration: 0.4 }, "-=0.2");
+    }, { scope: container });
 
     return (
-        <section className="home-doctors">
+        <section className="home-doctors" ref={container}>
             <div className="container">
                 <div className="section-header">
                     <p className="section-eyebrow">Our Team</p>

@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { doctors } from "../../data/doctorsData";
 import { FaTrash, FaEdit, FaPlus } from "react-icons/fa";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import "./ListProfilePage.css";
 
 export default function ListProfilePage() {
+    const container = useRef();
     const [docList, setDocList] = useState(doctors);
+
+    useGSAP(() => {
+        const tl = gsap.timeline();
+        tl.fromTo(".lpp-header", { y: -20, opacity: 1 }, { y: 0, opacity: 1, duration: 0.5 })
+          .fromTo(".dash-table th", { y: -10, opacity: 1 }, { y: 0, opacity: 1, duration: 0.3, stagger: 0.05 }, "-=0.2")
+          .fromTo("tbody tr", { x: -20, opacity: 1 }, { x: 0, opacity: 1, duration: 0.4, stagger: 0.05 }, "-=0.2");
+    }, { scope: container });
 
     const handleDelete = (id) => {
         if (window.confirm("Are you sure you want to remove this doctor?")) {
@@ -13,7 +23,7 @@ export default function ListProfilePage() {
     };
 
     return (
-        <div className="list-profile-page">
+        <div className="list-profile-page" ref={container}>
             <div className="lpp-header">
                 <div>
                     <h2 className="lpp-title">Doctors List</h2>

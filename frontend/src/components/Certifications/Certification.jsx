@@ -1,5 +1,11 @@
+import { useRef } from "react";
 import { FaUserMd, FaAmbulance, FaFlask, FaClock, FaShieldAlt, FaHeartbeat } from "react-icons/fa";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import "./Certification.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const FEATURES = [
     { icon: <FaUserMd />, title: "Expert Doctors", desc: "Board-certified specialists with 10+ years of experience in their fields." },
@@ -11,8 +17,22 @@ const FEATURES = [
 ];
 
 export default function Certifications() {
+    const container = useRef();
+
+    useGSAP(() => {
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: container.current,
+                start: "top 85%",
+            }
+        });
+
+        tl.fromTo(".section-header", { y: 30, opacity: 1 }, { y: 0, opacity: 1, duration: 0.6 })
+          .fromTo(".feature-card", { y: 30, opacity: 1 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 }, "-=0.3");
+    }, { scope: container });
+
     return (
-        <section className="certifications">
+        <section className="certifications" ref={container}>
             <div className="container">
                 <div className="section-header">
                     <p className="section-eyebrow">Why Us</p>

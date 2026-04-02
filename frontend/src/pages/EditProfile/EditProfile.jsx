@@ -1,4 +1,4 @@
-import EditProfilePage from "../doctor/EditProfilePage/EditProfilePage";
+import EditProfilePage from "../../doctor/EditProfilePage/EditProfilePage";
 
 export default function EditProfile() {
   return (

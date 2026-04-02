@@ -1,8 +1,25 @@
-import dummyAppointment from "../../../components/AppointmentPage/dummyAppointment";
+import { useRef } from "react";
+import { appointments, bookedServices } from "../../components/AppointmentPage/dummyAppointment";
 import { FaUsers, FaCalendarCheck, FaChartLine, FaWallet } from "react-icons/fa";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import "./DashboardPage.css";
 
 export default function DashboardPage() {
+    const container = useRef();
+
+    useGSAP(() => {
+        const tl = gsap.timeline();
+        tl.fromTo(".stat-card", { y: -20, opacity: 1 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 })
+          .fromTo(".dash-table-wrap", { y: 20, opacity: 1 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.2")
+          .fromTo("tbody tr", { x: -20, opacity: 1 }, { x: 0, opacity: 1, duration: 0.3, stagger: 0.05 }, "-=0.2");
+    }, { scope: container });
+
+    const dummyAppointment = [
+        ...appointments.map(a => ({ id: "d" + a.id, type: "doctor", status: (a.status || "upcoming").toLowerCase(), date: a.date, time: a.time, subjectName: a.doctor, fee: a.payment === "Online" ? "Paid" : "Cash" })),
+        ...bookedServices.map(a => ({ id: "s" + a.id, type: "service", status: (a.status || "upcoming").toLowerCase(), date: a.date, time: a.time, subjectName: a.name, fee: a.price }))
+    ].slice(0, 5); // Just show top 5 on dashboard
+
     const stats = [
         { label: "Total Patients", value: "1,240", icon: <FaUsers />, color: "#3b82f6" },
         { label: "Appointments", value: "320", icon: <FaCalendarCheck />, color: "#10b981" },
@@ -11,7 +28,7 @@ export default function DashboardPage() {
     ];
 
     return (
-        <div className="doc-dashboard">
+        <div className="doc-dashboard" ref={container}>
             <div className="dash-stats">
                 {stats.map((s) => (
                     <div key={s.label} className="stat-card">
