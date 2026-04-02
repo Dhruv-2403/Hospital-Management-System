@@ -114,7 +114,7 @@ export const bookedServices = [
         rescheduledTo: { date: "29 Nov 2026", time: "06:00 PM" },
     },
     {
-        id: 4,
+        id: 5,
         name: "Thyroid Test",
         image:
             "https://media.istockphoto.com/id/1415813531/photo/biochemist-of-doctor-holds-blood-sample-for-t3-t4-tsh-test-in-laboratory-background.jpg?s=612x612&w=0&k=20&c=gox_qnA11yPNG5ez0kGKAiy2NWMTjnoIR658bqAzc5Y=",
