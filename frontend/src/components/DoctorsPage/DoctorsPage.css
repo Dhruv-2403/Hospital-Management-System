@@ -1,0 +1,44 @@
+.doctors-wrapper { width: 100%; }
+
+.doctors-controls { margin-bottom: 32px; }
+
+.search-box {
+  position: relative;
+  margin-bottom: 20px;
+  max-width: 420px;
+}
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+}
+.search-input { padding-left: 40px; }
+
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  padding: 7px 18px;
+  border-radius: 999px;
+  border: 1.5px solid var(--gray-300);
+  background: var(--white);
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  transition: var(--transition);
+}
+.pill:hover { border-color: var(--primary); color: var(--primary); }
+.pill.active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.no-results { text-align: center; color: var(--gray-500); padding: 60px 0; font-size: 1rem; }
+
+.doc-exp { font-size: 0.8rem; color: var(--gray-400); margin-bottom: 8px; }
