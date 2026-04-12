@@ -15,6 +15,7 @@ import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import Contact from "./pages/Contact/Contact";
 import EditProfile from "./pages/EditProfile/EditProfile";
+import LoginPage from "./components/LoginPage/LoginPage";
 
 // Doctor Portal Pages
 import DHome from "./pages/DHome/DHome";
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="/edit-profile" element={<EditProfile />} />
 
           {/* Doctor portal routes */}
+          <Route path="/doctor-admin/login" element={<LoginPage />} />
           <Route path="/doctor/dashboard" element={<DHome />} />
           <Route path="/doctor/list" element={<List />} />
         </Routes>

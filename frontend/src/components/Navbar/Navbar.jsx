@@ -1,64 +1,209 @@
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { FaBars, FaTimes, FaUserMd, FaHospital } from "react-icons/fa";
-import "./Navbar.css";
 
-const NAV_LINKS = [
-    { to: "/", label: "Home" },
-    { to: "/doctors", label: "Doctors" },
-    { to: "/services", label: "Services" },
-    { to: "/contact", label: "Contact" },
-];
+
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import logo from "../../assets/logo.png";
+import { Menu, X, User as UserIcon, Key } from "lucide-react";
+
+// Clerk
+import { SignedIn, SignedOut, useClerk, UserButton } from "@clerk/clerk-react";
+import { navbarStyles } from "../../assets/dummyStyles";
+
+
 
 export default function Navbar() {
-    const [open, setOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [showNavbar, setShowNavbar] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    const location = useLocation();
+    const navRef = useRef(null);
+    const clerk = useClerk();
+
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY > lastScrollY && currentScrollY > 80) {
+                setShowNavbar(false);
+            } else {
+                setShowNavbar(true);
+            }
+            setLastScrollY(currentScrollY);
+        };
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [lastScrollY]);
+
+
+
+
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isOpen && navRef.current && !navRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [isOpen]);
+
+    const navItems = [
+        { label: "Home", href: "/" },
+        { label: "Doctors", href: "/doctors" },
+        { label: "Services", href: "/services" },
+        { label: "Appointments", href: "/appointments" },
+        { label: "Contact", href: "/contact" },
+    ];
+
+
 
     return (
-        <nav className="navbar">
-            <div className="navbar-inner">
+        <>
+            <div className={navbarStyles.navbarBorder} />
 
-                <Link to="/" className="navbar-logo">
-                    <FaHospital className="logo-icon" />
-                    <span>MediCare</span>
-                </Link>
+            <nav
+                ref={navRef}
+                className={`${navbarStyles.navbarContainer} ${showNavbar ? navbarStyles.navbarVisible : navbarStyles.navbarHidden
+                    }`}
+            >
+                <div className={navbarStyles.contentWrapper}>
+                    <div className={navbarStyles.flexContainer}>
+                        {/* Logo */}
+                        <Link to="/" className={navbarStyles.logoLink}>
+                            <div className={navbarStyles.logoContainer}>
+                                <div className={navbarStyles.logoImageWrapper}>
+                                    <img
+                                        src={logo}
+                                        alt="MedBook logo"
+                                        className={navbarStyles.logoImage}
+                                    />
+                                </div>
+                            </div>
+                            <div className={navbarStyles.logoTextContainer}>
+                                <h1 className={navbarStyles.logoTitle}>
+                                    MediCare
+                                </h1>
+                                <p className={navbarStyles.logoSubtitle}>
+                                    Healthcare Solutions
+                                </p>
+                            </div>
+                        </Link>
 
 
-                <ul className={`navbar-links ${open ? "open" : ""}`}>
-                    {NAV_LINKS.map((l) => (
-                        <li key={l.to}>
-                            <NavLink
-                                to={l.to}
-                                end={l.to === "/"}
-                                className={({ isActive }) =>
-                                    "nav-link" + (isActive ? " active" : "")
-                                }
-                                onClick={() => setOpen(false)}
+                        <div className={navbarStyles.desktopNav}>
+                            <div className={navbarStyles.navItemsContainer}>
+                                {navItems.map((item) => {
+                                    const isActive = location.pathname === item.href;
+                                    return (
+                                        <Link
+                                            key={item.href}
+                                            to={item.href}
+                                            className={`${navbarStyles.navItem} ${isActive
+                                                ? navbarStyles.navItemActive
+                                                : navbarStyles.navItemInactive
+                                                }`}
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+
+                        <div className={navbarStyles.rightContainer}>
+                            {/* {patient logged out} */}
+                            <SignedOut>
+                                {/* Doctor Admin */}
+                                <Link
+                                    to="/doctor-admin/login"
+                                    className={navbarStyles.doctorAdminButton}
+                                >
+                                    <UserIcon className={navbarStyles.doctorAdminIcon} />
+                                    <span className={navbarStyles.doctorAdminText}>
+                                        Doctor Admin
+                                    </span>
+                                </Link>
+
+                                {/* Patient Login */}
+                                <button
+                                    onClick={() => clerk.openSignIn()}
+                                    className={navbarStyles.loginButton}
+                                >
+                                    <Key className={navbarStyles.loginIcon} />
+                                    Login
+                                </button>
+                            </SignedOut>
+
+                            {/* {patient logged in } */}
+                            <SignedIn>
+                                <UserButton afterSignOutUrl="/" />
+                            </SignedIn>
+
+
+                            <button
+                                onClick={() => setIsOpen(!isOpen)}
+                                className={navbarStyles.mobileToggle}
+                                aria-expanded={isOpen}
+                                aria-label="Open menu"
                             >
-                                {l.label}
-                            </NavLink>
-                        </li>
-                    ))}
-                </ul>
+                                {isOpen ? (
+                                    <X className={navbarStyles.toggleIcon} />
+                                ) : (
+                                    <Menu className={navbarStyles.toggleIcon} />
+                                )}
+                            </button>
+                        </div>
+                    </div>
 
 
-                <div className="navbar-actions">
-                    <Link to="/appointments" className="btn btn-outline btn-sm">
-                        My Appointments
-                    </Link>
-                    <Link to="/login" className="btn btn-primary btn-sm">
-                        Login
-                    </Link>
+                    {isOpen && (
+                        <div className={navbarStyles.mobileMenu}>
+                            {navItems.map((item, idx) => {
+                                const isActive = location.pathname === item.href;
+                                return (
+                                    <Link
+                                        key={idx}
+                                        to={item.href}
+                                        onClick={() => setIsOpen(false)}
+                                        className={`${navbarStyles.mobileMenuItem} ${isActive
+                                            ? navbarStyles.mobileMenuItemActive
+                                            : navbarStyles.mobileMenuItemInactive
+                                            }`}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                );
+                            })}
+                            {/* Patient logged out */}
+                            <SignedOut>
+                                <Link
+                                    to="/doctor-admin/login"
+                                    onClick={() => setIsOpen(false)}
+                                    className={navbarStyles.mobileDoctorAdminButton}
+                                >
+                                    Doctor Admin
+                                </Link>
+                                <div className={navbarStyles.mobileLoginContainer}>
+                                    <button
+                                        onClick={() => {
+                                            setIsOpen(false);
+                                            clerk.openSignIn();
+                                        }}
+                                        className={navbarStyles.mobileLoginButton}
+                                    >
+                                        Login
+                                    </button>
+                                </div>
+                            </SignedOut>
+                        </div>
+                    )}
                 </div>
-
-
-                <button
-                    className="hamburger"
-                    onClick={() => setOpen((p) => !p)}
-                    aria-label="Toggle menu"
-                >
-                    {open ? <FaTimes /> : <FaBars />}
-                </button>
-            </div>
-        </nav>
+                {/* Animations */}
+                <style>{navbarStyles.animationStyles}</style>
+            </nav>
+        </>
     );
 }
