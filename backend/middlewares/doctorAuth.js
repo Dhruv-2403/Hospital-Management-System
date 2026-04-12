@@ -1,6 +1,6 @@
 // backend/middleware/doctorAuth.js
 import jwt from "jsonwebtoken";
-import Doctor from "../models/doctor.js";
+import Doctor from "../../models/Doctor.js";
 
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_here";
@@ -22,7 +22,7 @@ export default async function doctorAuth(req, res, next) {
     // 2. Verify token
     const payload = jwt.verify(token, JWT_SECRET);
 
-    // OPTIONAL: if you store role in token
+
     if (payload.role && payload.role !== "doctor") {
       return res.status(403).json({
         success: false,

@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import Appointment from "../models/Appointment.js";
-import Doctor from "../models/doctor.js";
+import Doctor from "../models/Doctor.js";
 import dotenv from "dotenv";
 import { getAuth } from "@clerk/express";
 import { clerkClient } from "@clerk/clerk-sdk-node";
@@ -32,7 +32,7 @@ const resolveClerkUserId = (req) => {
 const buildFilter = (query) => {
   const filter = {};
   const { doctorId, mobile, status, search, patientClerkId, createdBy } = query;
-  
+
   if (doctorId) filter.doctorId = doctorId;
   if (mobile) filter.mobile = mobile;
   if (status) filter.status = status;
@@ -116,7 +116,7 @@ export const createAppointment = async (req, res) => {
   try {
     const { doctorId, patientName, mobile, date, time, fee, fees, notes = "", email, paymentMethod } = req.body;
     const clerkUserId = resolveClerkUserId(req);
-    
+
     if (!clerkUserId || !doctorId || !patientName || !mobile || !date || !time) {
       return res.status(400).json({ success: false, message: "Required fields missing" });
     }
@@ -298,9 +298,9 @@ export const getStats = async (req, res) => {
       Appointment.countDocuments({ createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) } })
     ]);
 
-    return res.json({ 
-      success: true, 
-      stats: { total, revenue: (paidAgg[0]?.total) || 0, recentLast7Days: recent } 
+    return res.json({
+      success: true,
+      stats: { total, revenue: (paidAgg[0]?.total) || 0, recentLast7Days: recent }
     });
   } catch (err) {
     console.error("getStats:", err);

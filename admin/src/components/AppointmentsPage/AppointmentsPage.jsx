@@ -3,7 +3,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import { Search, Calendar, BadgeIndianRupee } from "lucide-react";
 import { pageStyles, statusClasses, keyframesStyles } from "../../assets/dummyStyles";
 
-const API_BASE = "http://localhost:4000";
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 function formatDateISO(iso) {
   try {

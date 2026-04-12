@@ -1,6 +1,6 @@
 // controllers/doctorController.js
 import jwt from "jsonwebtoken";
-import Doctor from "../models/doctor.js";
+import Doctor from "../models/Doctor.js";
 import { uploadToCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js";
 
 
