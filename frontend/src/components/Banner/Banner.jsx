@@ -45,7 +45,6 @@ const Banner = () => {
                                         <span className={bannerStyles.titleGradient}>Care+</span>
                                     </h1>
 
-                                    \
                                     <div className={bannerStyles.starsContainer}>
                                         <div className={bannerStyles.starsInner}>
                                             {[1, 2, 3, 4, 5].map((star) => (

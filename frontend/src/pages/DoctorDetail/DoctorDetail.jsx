@@ -50,7 +50,6 @@ function getScheduleDates(schedule) {
     })
     .filter(Boolean);
 
-)
   const dateOnlyValue = (d) =>
     Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
 
@@ -396,8 +395,8 @@ export default function DoctorDetail() {
       </div>
       <div
         className={`${doctorDetailStyles.mainContent} ${isVisible
-            ? doctorDetailStyles.visibleState
-            : doctorDetailStyles.hiddenState
+          ? doctorDetailStyles.visibleState
+          : doctorDetailStyles.hiddenState
           }`}
       >
         {/* profile card */}
@@ -551,8 +550,8 @@ export default function DoctorDetail() {
                           key={date.toISOString()}
                           onClick={() => setSelectedDate(date)}
                           className={`${doctorDetailStyles.dateButton} ${isSelected
-                              ? doctorDetailStyles.dateButtonSelected
-                              : doctorDetailStyles.dateButtonUnselected
+                            ? doctorDetailStyles.dateButtonSelected
+                            : doctorDetailStyles.dateButtonUnselected
                             }`}
                         >
                           <div className={doctorDetailStyles.dateContent}>
@@ -660,8 +659,8 @@ export default function DoctorDetail() {
                       key={slot}
                       onClick={() => setSelectedSlot(slot)}
                       className={`${doctorDetailStyles.timeSlotButton} ${selectedSlot === slot
-                          ? doctorDetailStyles.timeSlotButtonSelected
-                          : doctorDetailStyles.timeSlotButtonUnselected
+                        ? doctorDetailStyles.timeSlotButtonSelected
+                        : doctorDetailStyles.timeSlotButtonUnselected
                         }`}
                     >
                       <div className={doctorDetailStyles.timeSlotContent}>
@@ -736,8 +735,8 @@ export default function DoctorDetail() {
                     <div className={doctorDetailStyles.paymentOptions}>
                       <label
                         className={`${doctorDetailStyles.paymentOption} ${paymentMethod === "Cash"
-                            ? doctorDetailStyles.paymentOptionSelected
-                            : doctorDetailStyles.paymentOptionUnselected
+                          ? doctorDetailStyles.paymentOptionSelected
+                          : doctorDetailStyles.paymentOptionUnselected
                           }`}
                       >
                         <input
@@ -752,8 +751,8 @@ export default function DoctorDetail() {
                       </label>
                       <label
                         className={`${doctorDetailStyles.paymentOption} ${paymentMethod === "Online"
-                            ? doctorDetailStyles.paymentOptionSelected
-                            : doctorDetailStyles.paymentOptionUnselected
+                          ? doctorDetailStyles.paymentOptionSelected
+                          : doctorDetailStyles.paymentOptionUnselected
                           }`}
                       >
                         <input
@@ -773,8 +772,8 @@ export default function DoctorDetail() {
                     onClick={handleBooking}
                     disabled={!selectedDate || !selectedSlot || isSubmitting}
                     className={`${doctorDetailStyles.bookingButton} ${!selectedDate || !selectedSlot || isSubmitting
-                        ? doctorDetailStyles.bookingButtonDisabled
-                        : doctorDetailStyles.bookingButtonEnabled
+                      ? doctorDetailStyles.bookingButtonDisabled
+                      : doctorDetailStyles.bookingButtonEnabled
                       }`}
                   >
                     <div className={doctorDetailStyles.bookingButtonContent}>

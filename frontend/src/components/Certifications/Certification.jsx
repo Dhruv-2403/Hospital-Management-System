@@ -1,54 +1,101 @@
-import { useRef } from "react";
-import { FaUserMd, FaAmbulance, FaFlask, FaClock, FaShieldAlt, FaHeartbeat } from "react-icons/fa";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import "./Certification.css";
+import React from 'react';
+import C3 from "../../assets/C3.png"
+import C1 from "../../assets/C1.png"
+import C2 from "../../assets/C2.png"
+import C4 from "../../assets/C4.svg"
+import C5 from "../../assets/C5.png"
+import C6 from "../../assets/C6.png"
+import C7 from "../../assets/C7.svg"
+import { certificationStyles } from "../../assets/dummyStyles"
 
-gsap.registerPlugin(ScrollTrigger);
+const Certification = () => {
+    const certifications = [
+        { id: 1, name: "Medical Commission", image: C1, type: "international" },
+        { id: 2, name: "Government Approved", image: C2, type: "government" },
+        { id: 3, name: "NABH Accredited", image: C3, alt: "NABH Accreditation", type: "healthcare" },
+        { id: 4, name: "Medical Council", image: C4, type: "government" },
+        { id: 5, name: "Quality Healthcare", image: C5, alt: "Quality Healthcare", type: "healthcare" },
+        { id: 6, name: "Paramedical Council", image: C6, alt: "Patient Safety", type: "healthcare" },
+        { id: 7, name: "Ministry of Health", image: C7, alt: "Ministry of Health", type: "government" }
+    ];
 
-const FEATURES = [
-    { icon: <FaUserMd />, title: "Expert Doctors", desc: "Board-certified specialists with 10+ years of experience in their fields." },
-    { icon: <FaAmbulance />, title: "24/7 Emergency", desc: "Round-the-clock emergency services and critical care available always." },
-    { icon: <FaFlask />, title: "Modern Labs", desc: "State-of-the-art diagnostic labs with fastest report turnaround time." },
-    { icon: <FaClock />, title: "Quick Appointments", desc: "Book your slot in under 2 minutes — online or by phone, anytime." },
-    { icon: <FaShieldAlt />, title: "Secure & Private", desc: "Your health records are encrypted and protected with strict privacy." },
-    { icon: <FaHeartbeat />, title: "Holistic Care", desc: "Comprehensive treatment plans covering physical and mental wellbeing." },
-];
-
-export default function Certifications() {
-    const container = useRef();
-
-    useGSAP(() => {
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: container.current,
-                start: "top 85%",
-            }
-        });
-
-        tl.fromTo(".section-header", { y: 30, opacity: 1 }, { y: 0, opacity: 1, duration: 0.6 })
-          .fromTo(".feature-card", { y: 30, opacity: 1 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 }, "-=0.3");
-    }, { scope: container });
+    const duplicatedCertifications = [...certifications, ...certifications, ...certifications];
 
     return (
-        <section className="certifications" ref={container}>
-            <div className="container">
-                <div className="section-header">
-                    <p className="section-eyebrow">Why Us</p>
-                    <h2 className="section-title">Why Choose MediCare?</h2>
-                    <p className="section-sub">We combine world-class expertise with compassionate care to deliver the best outcomes.</p>
-                </div>
-                <div className="features-grid">
-                    {FEATURES.map((f) => (
-                        <div key={f.title} className="feature-card">
-                            <div className="feature-icon">{f.icon}</div>
-                            <h3>{f.title}</h3>
-                            <p>{f.desc}</p>
-                        </div>
-                    ))}
+        <div className={certificationStyles.container}>
+
+            {/* Background */}
+            <div className={certificationStyles.backgroundGrid}>
+                <div className={certificationStyles.topLine}></div>
+                <div className={certificationStyles.gridContainer}>
+                    <div className={certificationStyles.grid}>
+                        {Array.from({ length: 144 }).map((_, i) => (
+                            <div key={i} className={certificationStyles.gridCell}></div>
+                        ))}
+                    </div>
                 </div>
             </div>
-        </section>
+
+            <div className={certificationStyles.contentWrapper}>
+
+                {/* Heading */}
+                <div className={certificationStyles.headingContainer}>
+                    <div className={certificationStyles.headingInner}>
+                        <div className={certificationStyles.leftLine}></div>
+                        <div className={certificationStyles.rightLine}></div>
+
+                        <h2 className={certificationStyles.title}>
+                            <span className={certificationStyles.titleText}>
+                                CERTIFIED & EXCELLENCE
+                            </span>
+                        </h2>
+                    </div>
+
+                    <p className={certificationStyles.subtitle}>
+                        Government recognized and internationally accredited healthcare standards
+                    </p>
+
+                    <div className={certificationStyles.badgeContainer}>
+                        <div className={certificationStyles.badgeDot}></div>
+                        <span className={certificationStyles.badgeText}>
+                            OFFICIALLY CERTIFIED
+                        </span>
+                    </div>
+                </div>
+
+                {/* Logos Loop */}
+                <div className={certificationStyles.logosContainer}>
+                    <div className={certificationStyles.logosInner}>
+                        <div className={certificationStyles.logosFlexContainer}>
+                            <div className={certificationStyles.logosMarquee}>
+                                {duplicatedCertifications.map((cert, index) => (
+                                    <div
+                                        key={`cert-${cert.id}-${index}`}
+                                        className={certificationStyles.logoItem}
+                                    >
+                                        <div className="relative">
+                                            <img
+                                                src={cert.image}
+                                                alt={cert.alt}
+                                                className={certificationStyles.logoImage}
+                                            />
+                                        </div>
+                                        <span className={certificationStyles.logoText}>
+                                            {cert.name}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            {/* Animation Styles */}
+            <style>{certificationStyles.animationStyles}</style>
+        </div>
     );
-}
+};
+
+export default Certification;

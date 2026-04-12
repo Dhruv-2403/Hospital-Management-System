@@ -1,6 +1,5 @@
 import React from "react";
 import {
-
     Mail,
     Phone,
     MapPin,
@@ -9,6 +8,13 @@ import {
     Stethoscope,
     Activity,
 } from "lucide-react";
+import {
+    FaFacebook,
+    FaTwitter,
+    FaInstagram,
+    FaLinkedin,
+    FaYoutube,
+} from "react-icons/fa";
 import logo from "../../assets/logo.png";
 import { footerStyles } from "../../assets/dummyStyles";
 
@@ -28,36 +34,36 @@ const Footer = () => {
         { name: "Blood Sugar Test", href: "/services" },
         { name: "Full Blood Count", href: "/services" },
         { name: "X-Ray Scan", href: "/services" },
-        { name: "Blood Sugar Test", href: "/services" },
+        { name: "Lipid Profile Test", href: "/services" },
     ];
 
     const socialLinks = [
         {
-            Icon: Facebook,
+            Icon: FaFacebook,
             color: footerStyles.facebookColor,
             name: "Facebook",
             href: "https://www.facebook.com/people/Hexagon-Digital-Services/61567156598660/",
         },
         {
-            Icon: Twitter,
+            Icon: FaTwitter,
             color: footerStyles.twitterColor,
             name: "Twitter",
             href: "https://www.linkedin.com/company/hexagondigtial-services/",
         },
         {
-            Icon: Instagram,
+            Icon: FaInstagram,
             color: footerStyles.instagramColor,
             name: "Instagram",
             href: "http://instagram.com/hexagondigitalservices?igsh=MWp2NG1oNTlibWVnZA%3D%3D",
         },
         {
-            Icon: Linkedin,
+            Icon: FaLinkedin,
             color: footerStyles.linkedinColor,
             name: "LinkedIn",
             href: "https://www.linkedin.com/company/hexagondigtial-services/",
         },
         {
-            Icon: Youtube,
+            Icon: FaYoutube,
             color: footerStyles.youtubeColor,
             name: "YouTube",
             href: "https://youtube.com/@hexagondigitalservices?si=lxEFYNCP42t6AoDJ",
@@ -113,21 +119,21 @@ const Footer = () => {
                                 <div className={footerStyles.contactIconWrapper}>
                                     <Phone className={footerStyles.contactIcon} />
                                 </div>
-                                <span className={footerStyles.contactText}>+91 8299431275</span>
+                                <span className={footerStyles.contactText}>+91 9109982403</span>
                             </div>
                             <div className={footerStyles.contactItem}>
                                 <div className={footerStyles.contactIconWrapper}>
                                     <Mail className={footerStyles.contactIcon} />
                                 </div>
                                 <span className={footerStyles.contactText}>
-                                    hexagonsservices@gmail.com
+                                    dhruvsareen24@gmail.com
                                 </span>
                             </div>
                             <div className={footerStyles.contactItem}>
                                 <div className={footerStyles.contactIconWrapper}>
                                     <MapPin className={footerStyles.contactIcon} />
                                 </div>
-                                <span className={footerStyles.contactText}>Lucknow, India</span>
+                                <span className={footerStyles.contactText}>Pune, Maharashtra, India</span>
                             </div>
                         </div>
                     </div>
@@ -158,7 +164,7 @@ const Footer = () => {
                         <h3 className={footerStyles.sectionTitle}>Our Services</h3>
                         <ul className={footerStyles.linksList}>
                             {services.map((service, index) => (
-                                <li key={service.name}>
+                                <li key={index}>
                                     <a href={service.href} className={footerStyles.serviceLink}>
                                         <div className={footerStyles.serviceIcon} />
                                         <span>{service.name}</span>
@@ -209,22 +215,7 @@ const Footer = () => {
                             </div>
 
 
-                            <div className={footerStyles.socialContainer}>
-                                {socialLinks.map(({ Icon, color, name, href }, index) => (
-                                    <a
-                                        key={name}
-                                        href={href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={footerStyles.socialLink}
-                                        aria-label={name}
-                                        style={{ animationDelay: `${index * 120}ms` }}
-                                    >
-                                        <div className={footerStyles.socialIconBackground} />
-                                        <Icon className={`${footerStyles.socialIcon} ${color}`} />
-                                    </a>
-                                ))}
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -237,14 +228,9 @@ const Footer = () => {
 
                     <div className={footerStyles.designerText}>
                         <span>Designed by</span>
-                        <a
-                            href="https://hexagondigitalservices.com/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={footerStyles.designerLink}
-                        >
-                            Hexagon Digital Services
-                        </a>
+                        <span className={footerStyles.designerLink}>
+                            Dhruv Sareen
+                        </span>
                     </div>
                 </div>
             </div>

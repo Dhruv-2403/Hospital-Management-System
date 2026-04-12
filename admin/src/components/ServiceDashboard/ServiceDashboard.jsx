@@ -86,7 +86,7 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
 
 
   async function fetchServices({ showLoading = true } = {}) {
-    if (fetchingRef.current) return; 
+    if (fetchingRef.current) return;
     fetchingRef.current = true;
     try {
       if (showLoading) {
@@ -136,19 +136,19 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
     window.refreshServices = () => fetchServices({ showLoading: true });
     return () => {
       try {
-   
+
         delete window.refreshServices;
-      } catch (e){
+      } catch (e) {
         console.log(e.message)
       }
     };
-    
+
   });
 
   useEffect(() => {
     mountedRef.current = true;
 
-   
+
     if (Array.isArray(servicesProp)) {
       setServices(servicesProp.map(normalizeService));
       setLoading(false);
@@ -209,8 +209,8 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
       window.removeEventListener("storage", onStorage);
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-   
-  },[servicesProp]);
+
+  }, [servicesProp]);
 
 
   const filteredServices = useMemo(() => {
@@ -268,18 +268,17 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
             </p>
           </div>
 
-          
+
           <div className={serviceDashboardStyles.refresh.container}>
             <div className={serviceDashboardStyles.refresh.countText}>
               {loading
                 ? "Loading..."
-                : `${filteredServices.length} service${
-                    filteredServices.length !== 1 ? "s" : ""
-                  }`}
+                : `${filteredServices.length} service${filteredServices.length !== 1 ? "s" : ""
+                }`}
             </div>
             <button
               onClick={() => {
-            
+
                 if (Array.isArray(servicesProp)) return;
                 fetchServices({ showLoading: true });
               }}
@@ -295,7 +294,6 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
           </div>
         </div>
 
-   \
         <div className={serviceDashboardStyles.statGrid}>
           <StatCard
             icon={<ClipboardList size={18} />}
@@ -324,7 +322,7 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
           />
         </div>
 
-        
+
         <div className={serviceDashboardStyles.search.container}>
           <div className={serviceDashboardStyles.search.inputContainer}>
             <Search size={16} className="text-emerald-700" />
@@ -384,7 +382,7 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
                     key={s.id}
                     className={serviceDashboardStyles.table.row}
                   >
-  
+
                     <div className={serviceDashboardStyles.table.tabletView}>
                       <div className="flex items-center gap-3">
                         <div className={serviceDashboardStyles.table.tabletImage}>
@@ -418,7 +416,7 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
                       </div>
                     </div>
 
-            
+
                     <div className={serviceDashboardStyles.table.desktopView}>
                       <div className="col-span-5 flex items-center gap-4">
                         <div className={serviceDashboardStyles.table.desktopImage}>
@@ -449,7 +447,7 @@ export default function ServiceDashboard({ services: servicesProp = null }) {
                         {formatCurrency(earning)}
                       </div>
                     </div>
-\
+
                     <div className={serviceDashboardStyles.table.mobileView}>
                       <div className="flex items-start gap-3">
                         <div className={serviceDashboardStyles.table.mobileImage}>

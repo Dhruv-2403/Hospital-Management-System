@@ -93,7 +93,7 @@ export const getAppointmentsByPatient = async (req, res) => {
     return res.json({ success: true, appointments });
   } catch (err) {
     console.error("getAppointmentsByPatient:", err);
-    return res.status(500).json({ success: false, message: "Server error" });
+    return res.status(500).json({ success: false, message: "Server error", error: err.toString(), stack: err.stack });
   }
 };
 
@@ -175,7 +175,7 @@ export const createAppointment = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      customer_email: email,
+      customer_email: email || undefined,
       line_items: [{
         price_data: {
           currency: "inr",
@@ -198,7 +198,7 @@ export const createAppointment = async (req, res) => {
     return res.status(201).json({ success: true, appointment: created, checkoutUrl: session.url });
   } catch (err) {
     console.error("createAppointment:", err);
-    return res.status(500).json({ success: false, message: "Server error" });
+    return res.status(500).json({ success: false, message: "Server error: " + err.message });
   }
 };
 

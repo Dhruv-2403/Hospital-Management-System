@@ -19,7 +19,7 @@ import EditProfile from "./pages/EditProfile/EditProfile";
 
 // Lucide icon
 import { CircleChevronUp } from "lucide-react";
-import VerifyPaymentPage from "../VerifyPaymetPage";
+import VerifyPaymentPage from "../VerifyPaymentPage";
 import VerifyServicePaymentPage from "../VerifyServicePaymentPage";
 
 /* ================= Scroll To Top ================= */
