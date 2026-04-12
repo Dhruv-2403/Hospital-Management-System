@@ -65,20 +65,20 @@ export default function ContactPage() {
 
     function validate() {
         const e = {};
-        if (!form.name.trim()) e.name = "Full name is required";
-        if (!form.email.trim()) e.email = "Email is required";
-        else if (!/^\S+@\S+\.\S+$/.test(form.email))
-            e.email = "Enter a valid email";
-        if (!form.phone.trim()) e.phone = "Phone number is required";
-        else if (!/^[0-9]{10}$/.test(form.phone))
-            e.phone = "Phone number must be exactly 10 digits";
 
-        if (!form.department && !form.service) {
-            e.department = "Please choose a department or service";
-            e.service = "Please choose a department or service";
-        }
+        if (!form.name.trim()) e.name = "Full name is required";
+
+        if (!form.email.trim()) e.email = "Email is required";
+        else if (!/^\S+@\S+\.\S+$/.test(form.email)) e.email = "Enter a valid email";
+
+        if (!form.phone.trim()) e.phone = "Phone number is required";
+        else if (!/^[0-9]{10}$/.test(form.phone)) e.phone = "Phone number must be exactly 10 digits";
+
+        if (!form.department && !form.service)
+            e.department = e.service = "Please choose a department or service";
 
         if (!form.message.trim()) e.message = "Please write a short message";
+
         setErrors(e);
         return Object.keys(e).length === 0;
     }

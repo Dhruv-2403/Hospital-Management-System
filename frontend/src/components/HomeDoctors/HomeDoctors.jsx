@@ -1,69 +1,265 @@
-import { useRef } from "react";
+// src/pages/Home/HomeDoctors.jsx
+import React, { useEffect, useState } from "react";
+import { Medal, ChevronsRight, MousePointer2Off } from "lucide-react";
 import { Link } from "react-router-dom";
-import { FaStar, FaArrowRight } from "react-icons/fa";
-import { doctors } from "../../data/doctorsData";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import "./HomeDoctors.css";
+import { homeDoctorsStyles, iconSize } from "../../assets/dummyStyles";
 
-gsap.registerPlugin(ScrollTrigger);
+const HomeDoctors = ({ apiBase, previewCount = 8 }) => {
+    const API_BASE = apiBase || "http://localhost:4000";
+    const [doctors, setDoctors] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-export default function HomeDoctors() {
-    const featured = doctors.slice(0, 8);
-    const container = useRef();
 
-    useGSAP(() => {
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: container.current,
-                start: "top 80%",
+    useEffect(() => {
+        let mounted = true;
+        async function load() {
+            setLoading(true);
+            setError("");
+            try {
+                const res = await fetch(`${API_BASE}/api/doctors`);
+                const json = await res.json().catch(() => null);
+
+                if (!res.ok) {
+                    const msg =
+                        (json && json.message) || `Failed to load doctors (${res.status})`;
+                    if (!mounted) return;
+                    setError(msg);
+                    setDoctors([]);
+                    setLoading(false);
+                    return;
+                }
+
+
+                const items = (json && (json.data || json)) || [];
+
+                const normalized = (Array.isArray(items) ? items : []).map((d) => {
+                    const id = d._id || d.id;
+                    const image =
+                        d.imageUrl || d.image || d.imageSmall || d.imageSrc || "";
+
+                    const available =
+                        (typeof d.availability === "string"
+                            ? d.availability.toLowerCase() === "available"
+                            : typeof d.available === "boolean"
+                                ? d.available
+                                : d.availability === true) || d.availability === "Available";
+                    return {
+                        id,
+                        name: d.name || "Unknown",
+                        specialization: d.specialization || "",
+                        image,
+                        experience:
+                            d.experience || d.experience === 0 ? String(d.experience) : "",
+                        fee: d.fee ?? d.price ?? 0,
+                        available,
+                        raw: d,
+                    };
+                });
+
+                if (!mounted) return;
+                setDoctors(normalized);
+            } catch (err) {
+                if (!mounted) return;
+                console.error("load doctors error:", err);
+                setError("Network error while loading doctors.");
+                setDoctors([]);
+            } finally {
+                if (mounted) setLoading(false);
             }
-        });
+        }
+        load();
+        return () => {
+            mounted = false;
+        };
+    }, [API_BASE]);
 
-        tl.from(".section-header", { y: 30, duration: 0.6 })
-            .from(".doc-card", { y: 40, duration: 0.5, stagger: 0.1 }, "-=0.3")
-            .from(".home-doctors-cta", { scale: 0.9, duration: 0.4 }, "-=0.2");
-    }, { scope: container });
+    const preview = doctors.slice(0, previewCount);
 
     return (
-        <section className="home-doctors" ref={container}>
-            <div className="container">
-                <div className="section-header">
-                    <p className="section-eyebrow">Our Team</p>
-                    <h2 className="section-title">Meet Our Specialists</h2>
-                    <p className="section-sub">Experienced, caring doctors across every major specialty.</p>
+        <section className={homeDoctorsStyles.section}>
+            <div className={homeDoctorsStyles.container}>
+                <div className={homeDoctorsStyles.header}>
+                    <h1 className={homeDoctorsStyles.title}>
+                        Our{" "}
+                        <span className={homeDoctorsStyles.titleSpan}>Medical Team</span>
+                    </h1>
+                    <p className={homeDoctorsStyles.subtitle}>
+                        Book appointments quickly with our verified specialists.
+                    </p>
                 </div>
 
-                <div className="doctors-grid">
-                    {featured.map((doc) => (
-                        <Link to={`/doctors/${doc.id}`} key={doc.id} className="doc-card">
-                            <div className="doc-img-wrap">
-                                <img src={doc.image} alt={doc.name} className="doc-img" />
-                                <span className={`avail-badge ${doc.available ? "avail" : "unavail"}`}>
-                                    {doc.available ? "Available" : "Busy"}
-                                </span>
-                            </div>
-                            <div className="doc-info">
-                                <h3>{doc.name}</h3>
-                                <p className="doc-spec">{doc.specialization}</p>
-                                <div className="doc-meta">
-                                    <span className="doc-rating">
-                                        <FaStar className="star" /> {doc.rating}
-                                    </span>
-                                    <span className="doc-fee">₹{doc.fee}</span>
+
+                {error ? (
+                    <div className={homeDoctorsStyles.errorContainer}>
+                        <div className={homeDoctorsStyles.errorText}>{error}</div>
+                        <button
+                            onClick={() => {
+                                setLoading(true);
+                                setError("");
+
+                                (async () => {
+                                    try {
+                                        const res = await fetch(`${API_BASE}/api/doctors`);
+                                        const json = await res.json().catch(() => null);
+                                        const items = (json && (json.data || json)) || [];
+                                        const normalized = (Array.isArray(items) ? items : []).map(
+                                            (d) => {
+                                                const id = d._id || d.id;
+                                                const image = d.imageUrl || d.image || "";
+                                                const available =
+                                                    (typeof d.availability === "string"
+                                                        ? d.availability.toLowerCase() === "available"
+                                                        : typeof d.available === "boolean"
+                                                            ? d.available
+                                                            : d.availability === true) ||
+                                                    d.availability === "Available";
+                                                return {
+                                                    id,
+                                                    name: d.name || "Unknown",
+                                                    specialization: d.specialization || "",
+                                                    image,
+                                                    experience: d.experience || "",
+                                                    fee: d.fee ?? d.price ?? 0,
+                                                    available,
+                                                    raw: d,
+                                                };
+                                            },
+                                        );
+                                        setDoctors(normalized);
+                                        setError("");
+                                    } catch (err) {
+                                        console.error(err);
+                                        setError("Network error while loading doctors.");
+                                        setDoctors([]);
+                                    } finally {
+                                        setLoading(false);
+                                    }
+                                })();
+                            }}
+                            className={homeDoctorsStyles.retryButton}
+                        >
+                            Retry
+                        </button>
+                    </div>
+                ) : null}
+
+
+                {loading ? (
+                    <div className={homeDoctorsStyles.skeletonGrid}>
+                        {Array.from({ length: previewCount }).map((_, i) => (
+                            <div key={i} className={homeDoctorsStyles.skeletonCard}>
+                                <div className={homeDoctorsStyles.skeletonImage} />
+                                <div className={homeDoctorsStyles.skeletonText1} />
+                                <div className={homeDoctorsStyles.skeletonText2} />
+                                <div className="flex gap-2 mt-auto">
+                                    <div className={homeDoctorsStyles.skeletonButton} />
                                 </div>
                             </div>
-                        </Link>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                ) : (
 
-                <div className="home-doctors-cta">
-                    <Link to="/doctors" className="btn btn-outline">
-                        View All Doctors <FaArrowRight />
-                    </Link>
-                </div>
+                    <div className={homeDoctorsStyles.doctorsGrid}>
+                        {preview.map((doctor) => (
+                            <article
+                                key={doctor.id || doctor.name}
+                                className={homeDoctorsStyles.article}
+                                aria-labelledby={`doctor-${doctor.id}-name`}
+                            >
+
+                                {doctor.available ? (
+                                    <Link
+                                        to={`/doctors/${doctor.id}`}
+                                        state={{ doctor: doctor.raw || doctor }}
+                                    >
+                                        <div className={homeDoctorsStyles.imageContainerAvailable}>
+                                            <img
+                                                src={doctor.image || "/placeholder-doctor.jpg"}
+                                                alt={doctor.name}
+                                                loading="lazy"
+                                                className={homeDoctorsStyles.image}
+                                                onError={(e) => {
+                                                    e.currentTarget.onerror = null;
+                                                    e.currentTarget.src = "/placeholder-doctor.jpg";
+                                                }}
+                                            />
+                                        </div>
+                                    </Link>
+                                ) : (
+                                    <div className={homeDoctorsStyles.imageContainerUnavailable}>
+                                        <img
+                                            src={doctor.image || "/placeholder-doctor.jpg"}
+                                            alt={doctor.name}
+                                            loading="lazy"
+                                            className={homeDoctorsStyles.image}
+                                            onError={(e) => {
+                                                e.currentTarget.onerror = null;
+                                                e.currentTarget.src = "/placeholder-doctor.jpg";
+                                            }}
+                                        />
+
+                                        <div className={homeDoctorsStyles.unavailableBadge}>
+                                            Not available
+                                        </div>
+                                    </div>
+                                )}
+
+
+                                <div className={homeDoctorsStyles.cardBody}>
+                                    <h3
+                                        id={`doctor-${doctor.id}-name`}
+                                        className={homeDoctorsStyles.doctorName}
+                                    >
+                                        {doctor.name}
+                                    </h3>
+
+                                    <p className={homeDoctorsStyles.specialization}>
+                                        {doctor.specialization}
+                                    </p>
+
+                                    <div className={homeDoctorsStyles.experienceContainer}>
+                                        <div className={homeDoctorsStyles.experienceBadge}>
+                                            <Medal className={`${iconSize.small} h-4`} />
+                                            <span>{doctor.experience} years Experience</span>
+                                        </div>
+                                    </div>
+
+                                    <div className={homeDoctorsStyles.buttonContainer}>
+
+                                        <div className="w-full">
+                                            {doctor.available ? (
+                                                <Link
+                                                    to={`/doctors/${doctor.id}`}
+                                                    state={{ doctor: doctor.raw || doctor }}
+                                                    className={homeDoctorsStyles.buttonAvailable}
+                                                    aria-label={`Book appointment with ${doctor.name}`}
+                                                >
+                                                    <ChevronsRight className="w-5 h-5" />
+                                                    Book Now
+                                                </Link>
+                                            ) : (
+                                                <button
+                                                    disabled
+                                                    className={homeDoctorsStyles.buttonUnavailable}
+                                                    aria-label={`${doctor.name} not available`}
+                                                >
+                                                    <MousePointer2Off className="w-5 h-5" />
+                                                    Not Available
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                )}
             </div>
+
+            <style>{homeDoctorsStyles.customCSS}</style>
         </section>
     );
-}
+};
+
+export default HomeDoctors;
