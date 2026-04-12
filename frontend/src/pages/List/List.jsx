@@ -1,13 +1,14 @@
-import DoctorNavbar from "../../doctor/Navbar/Navbar";
-import ListProfilePage from "../../doctor/ListProfilePage/ListProfilePage";
+import React from 'react'
+import Navbar from "../../doctor/Navbar/Navbar"
+import ListPage from '../../doctor/ListPage/ListPage'
 
-export default function List() {
+const List = () => {
   return (
-    <div style={{ display: "flex" }}>
-      <DoctorNavbar />
-      <div className="doc-layout-content" style={{ flex: 1 }}>
-        <ListProfilePage />
-      </div>
+    <div>
+      <Navbar />
+      <ListPage />
     </div>
-  );
+  )
 }
+
+export default List
