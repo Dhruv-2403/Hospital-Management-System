@@ -1,6 +1,6 @@
 // backend/middleware/doctorAuth.js
 import jwt from "jsonwebtoken";
-import Doctor from "../../models/Doctor.js";
+import Doctor from "../models/Doctor.js";
 
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_here";
