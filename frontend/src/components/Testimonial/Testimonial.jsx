@@ -1,63 +1,233 @@
-import { useRef } from "react";
-import { FaQuoteLeft, FaStar } from "react-icons/fa";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import "./Testimonial.css";
+import React, { useEffect, useRef, useState } from "react";
+import { Star } from "lucide-react";
+import { testimonialStyles } from "../../assets/dummyStyles";
 
-gsap.registerPlugin(ScrollTrigger);
+const Testimonial = () => {
+    const scrollRefLeft = useRef(null);
+    const scrollRefRight = useRef(null);
+    const [isPaused, setIsPaused] = useState(false);
 
-const REVIEWS = [
-    { name: "Ananya Sharma", spec: "Cardiology Patient", rating: 5, text: "Dr. Sarah Johnson was absolutely amazing. She explained everything clearly and the booking was seamless." },
-    { name: "Rahul Mehta", spec: "Dermatology Patient", rating: 5, text: "MediCare's online booking saved me so much time. Got an appointment within the hour. Highly recommend!" },
-    { name: "Priya Singh", spec: "Pediatrics Patient", rating: 5, text: "Excellent experience for my child. Dr. Rodriguez was kind, patient, and very thorough. Will be back." },
-    { name: "Vikram Patel", spec: "Orthopedics Patient", rating: 4, text: "Very professional staff. The clinic was clean and modern. Surgery went smoothly. Recovering well!" },
-];
+    const testimonials = [
+        {
+            id: 1,
+            name: "Dr. Sarah Johnson",
+            role: "Cardiologist",
+            rating: 5,
+            text: "The appointment booking system is incredibly efficient. It saves me valuable time and helps me focus on patient care.",
+            image:
+                "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80",
+            type: "doctor",
+        },
+        {
+            id: 2,
+            name: "Michael Chen",
+            role: "Patient",
+            rating: 5,
+            text: "Scheduling appointments has never been easier. The interface is intuitive and reminders are very helpful!",
+            image:
+                "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=400&q=80",
+            type: "patient",
+        },
+        {
+            id: 3,
+            name: "Dr. Robert Martinez",
+            role: "Pediatrician",
+            rating: 4,
+            text: "This platform has streamlined our clinic operations significantly. Patient management is much more organized.",
+            image:
+                "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=400&q=80",
+            type: "doctor",
+        },
+        {
+            id: 4,
+            name: "Emily Williams",
+            role: "Patient",
+            rating: 5,
+            text: "Booking appointments online 24/7 is a game-changer. The confirmation system gives me peace of mind.",
+            image:
+                "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80",
+            type: "patient",
+        },
+        {
+            id: 5,
+            name: "Dr. Amanda Lee",
+            role: "Dermatologist",
+            rating: 5,
+            text: "Excellent platform for managing appointments. Automated reminders reduce no-shows dramatically.",
+            image:
+                "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=400&q=80",
+            type: "doctor",
+        },
+        {
+            id: 6,
+            name: "David Thompson",
+            role: "Patient",
+            rating: 5,
+            text: "The wait time has reduced significantly since using this platform. Very convenient and user-friendly!",
+            image:
+                "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=400&q=80",
+            type: "patient",
+        },
+    ];
 
-export default function Testimonial() {
-    const container = useRef();
+    const leftTestimonials = testimonials.filter((t) => t.type === "doctor");
+    const rightTestimonials = testimonials.filter((t) => t.type === "patient");
 
-    useGSAP(() => {
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: container.current,
-                start: "top 85%",
+    useEffect(() => {
+        const scrollLeft = scrollRefLeft.current;
+        const scrollRight = scrollRefRight.current;
+        if (!scrollLeft || !scrollRight) return;
+
+        let scrollSpeed = 0.5;
+        let rafId;
+
+        const smoothScroll = () => {
+            if (!isPaused) {
+                scrollLeft.scrollTop += scrollSpeed;
+                scrollRight.scrollTop -= scrollSpeed;
+
+                // seamless infinite loop
+                if (scrollLeft.scrollTop >= scrollLeft.scrollHeight / 2) {
+                    scrollLeft.scrollTop = 0;
+                }
+                if (scrollRight.scrollTop <= 0) {
+                    scrollRight.scrollTop = scrollRight.scrollHeight / 2;
+                }
             }
-        });
+            rafId = requestAnimationFrame(smoothScroll);
+        };
 
-        tl.fromTo(".section-header", { y: 30, opacity: 1 }, { y: 0, opacity: 1, duration: 0.6 })
-          .fromTo(".review-card", { scale: 0.9, opacity: 1 }, { scale: 1, opacity: 1, duration: 0.5, stagger: 0.1, ease: "back.out(1.5)" }, "-=0.3");
-    }, { scope: container });
+        rafId = requestAnimationFrame(smoothScroll);
+        return () => cancelAnimationFrame(rafId);
+    }, [isPaused]);
 
-    return (
-        <section className="testimonials" ref={container}>
-            <div className="container">
-                <div className="section-header">
-                    <p className="section-eyebrow">Stories</p>
-                    <h2 className="section-title">What Our Patients Say</h2>
-                    <p className="section-sub">Thousands of patients trust MediCare for their healthcare needs every month.</p>
-                </div>
-                <div className="testimonials-grid">
-                    {REVIEWS.map((r) => (
-                        <div key={r.name} className="review-card">
-                            <FaQuoteLeft className="quote-icon" />
-                            <p className="review-text">"{r.text}"</p>
-                            <div className="review-stars">
-                                {Array.from({ length: r.rating }).map((_, i) => (
-                                    <FaStar key={i} className="star" />
-                                ))}
-                            </div>
-                            <div className="reviewer">
-                                <div className="reviewer-avatar">{r.name.charAt(0)}</div>
-                                <div>
-                                    <p className="reviewer-name">{r.name}</p>
-                                    <p className="reviewer-spec">{r.spec}</p>
-                                </div>
-                            </div>
+    const renderStars = (rating) =>
+        Array.from({ length: 5 }, (_, i) => (
+            <span
+                key={i}
+                className={
+                    i < rating
+                        ? testimonialStyles.activeStar
+                        : testimonialStyles.inactiveStar
+                }
+            >
+                <Star className={testimonialStyles.star} />
+            </span>
+        ));
+
+    const TestimonialCard = ({ testimonial, direction }) => (
+        <div
+            className={`${testimonialStyles.testimonialCard} ${direction === "left"
+                    ? testimonialStyles.leftCardBorder
+                    : testimonialStyles.rightCardBorder
+                }`}
+        >
+            <div className={testimonialStyles.cardContent}>
+                <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className={testimonialStyles.avatar}
+                />
+                <div className={testimonialStyles.textContainer}>
+                    <div className={testimonialStyles.nameRoleContainer}>
+                        <div>
+                            <h4
+                                className={`${testimonialStyles.name} ${direction === "left"
+                                        ? testimonialStyles.leftName
+                                        : testimonialStyles.rightName
+                                    }`}
+                            >
+                                {testimonial.name}
+                            </h4>
+                            <p className={testimonialStyles.role}>{testimonial.role}</p>
                         </div>
-                    ))}
+                        <div className={testimonialStyles.starsContainer}>
+                            {renderStars(testimonial.rating)}
+                        </div>
+                    </div>
+
+                    <p className={testimonialStyles.quote}>"{testimonial.text}"</p>
+
+
+                    <div className={testimonialStyles.mobileStarsContainer}>
+                        {renderStars(testimonial.rating)}
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
     );
-}
+
+    return (
+        <div className={testimonialStyles.container}>
+            <div className={testimonialStyles.headerContainer}>
+                <h2 className={testimonialStyles.title}>Voices of Trust</h2>
+                <p className={testimonialStyles.subtitle}>
+                    Real stories from doctors and patients sharing their positive
+                    experiences with our healthcare platform.
+                </p>
+            </div>
+
+            <div
+                className={testimonialStyles.grid}
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+            >
+
+                <div
+                    className={`${testimonialStyles.columnContainer} ${testimonialStyles.leftColumnBorder}`}
+                >
+                    <div
+                        className={`${testimonialStyles.columnHeader} ${testimonialStyles.leftColumnHeader}`}
+                    >
+                        👩‍⚕️ Medical Professionals
+                    </div>
+                    <div
+                        ref={scrollRefLeft}
+                        className={testimonialStyles.scrollContainer}
+
+                        onTouchStart={() => setIsPaused(true)}
+                        onTouchEnd={() => setIsPaused(false)}
+                    >
+                        {[...leftTestimonials, ...leftTestimonials].map((t, i) => (
+                            <TestimonialCard
+                                key={`L-${i}`}
+                                testimonial={t}
+                                direction="left"
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                <div
+                    className={`${testimonialStyles.columnContainer} ${testimonialStyles.rightColumnBorder}`}
+                >
+                    <div
+                        className={`${testimonialStyles.columnHeader} ${testimonialStyles.rightColumnHeader}`}
+                    >
+                        🧑‍💼 Patients
+                    </div>
+
+                    <div
+                        ref={scrollRefRight}
+                        className={testimonialStyles.scrollContainer}
+                        onTouchStart={() => setIsPaused(true)}
+                        onTouchEnd={() => setIsPaused(false)}
+                    >
+                        {[...rightTestimonials, ...rightTestimonials].map((t, i) => (
+                            <TestimonialCard
+                                key={`R-${i}`}
+                                testimonial={t}
+                                direction="right"
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+
+            <style>{testimonialStyles.animationStyles}</style>
+        </div>
+    );
+};
+
+export default Testimonial;

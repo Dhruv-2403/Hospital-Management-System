@@ -1,38 +1,224 @@
+// src/pages/ServicePage/ServicePage.jsx
+import React, { useEffect, useState } from "react";
+import { ChevronsRight, MousePointer2Off } from "lucide-react";
 import { Link } from "react-router-dom";
-import { FaFlask, FaXRay, FaEye, FaHeartbeat, FaTooth, FaCapsules, FaBrain, FaBaby } from "react-icons/fa";
-import "./ServicePage.css";
+import { servicePageStyles, serviceCardStyles } from "../../assets/dummyStyles";
 
-const SERVICES = [
-    { id: 1, name: "Blood Tests", icon: <FaFlask />, desc: "Complete blood count, sugar, thyroid, lipid profile and more.", price: 199, color: "#ef4444" },
-    { id: 2, name: "X-Ray & Imaging", icon: <FaXRay />, desc: "Digital X-ray, CT scan, MRI, and ultrasound diagnostics.", price: 499, color: "#8b5cf6" },
-    { id: 3, name: "Eye Check-up", icon: <FaEye />, desc: "Vision tests, retina exam, cataract screening, and specs check.", price: 399, color: "#06b6d4" },
-    { id: 4, name: "Heart Screening", icon: <FaHeartbeat />, desc: "ECG, echocardiogram, stress test, and cardiac risk assessment.", price: 999, color: "#ec4899" },
-    { id: 5, name: "Dental Care", icon: <FaTooth />, desc: "Cleaning, fillings, root canal, braces, and whitening.", price: 599, color: "#14b8a6" },
-    { id: 6, name: "Pharmacy", icon: <FaCapsules />, desc: "Genuine medicines, OTC products, and home delivery available.", price: 0, color: "#f59e0b" },
-    { id: 7, name: "Neurology Tests", icon: <FaBrain />, desc: "EEG, nerve conduction study, and cognitive assessments.", price: 799, color: "#6366f1" },
-    { id: 8, name: "Maternity Care", icon: <FaBaby />, desc: "Prenatal checkups, ultrasound, delivery, and postnatal care.", price: 1499, color: "#f43f5e" },
-];
+const PlaceholderImg = "/placeholder-service.jpg";
 
-export default function ServicePage() {
+const ServiceCard = ({ service }) => {
+    const hasSrcSet =
+        !!service.imageSrcSet ||
+        (!!service.imageSmall && !!service.imageMedium && !!service.imageLarge);
+
+
+    const src = service.imageUrl || service.image || service.imageSmall || "";
+    const srcSet =
+        service.imageSrcSet ||
+        (service.imageSmall || service.image
+            ? `${service.imageSmall || src} 480w, ${service.imageMedium || src
+            } 768w, ${service.imageLarge || src} 1200w`
+            : null);
+
+    const name = service.name || "Service";
+    const shortDescription = service.shortDescription || service.about || "";
+
     return (
-        <section className="service-page-section">
-            <div className="services-grid">
-                {SERVICES.map((s) => (
-                    <Link to={`/services/${s.id}`} key={s.id} className="service-card">
-                        <div className="service-icon" style={{ background: s.color + "18", color: s.color }}>
-                            {s.icon}
-                        </div>
-                        <h3>{s.name}</h3>
-                        <p>{s.desc}</p>
-                        <div className="service-footer">
-                            <span className="service-price">{s.price > 0 ? `Starting ₹${s.price}` : "Varies"}</span>
-                            <span className="service-arrow">→</span>
-                        </div>
-                    </Link>
-                ))}
+        <div className={serviceCardStyles.card}>
+            <div className={serviceCardStyles.imageContainer} aria-hidden="true">
+                {hasSrcSet ? (
+                    <picture className={serviceCardStyles.picture}>
+                        {service.imageWebp && (
+                            <source srcSet={service.imageWebp} type="image/webp" />
+                        )}
+                        {service.imageSrcSet ? (
+                            <img
+                                src={src || PlaceholderImg}
+                                srcSet={service.imageSrcSet}
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                alt={name}
+                                loading="lazy"
+                                decoding="async"
+                                className={serviceCardStyles.responsiveImage}
+                                onError={(e) => {
+                                    e.currentTarget.onerror = null;
+                                    e.currentTarget.src = PlaceholderImg;
+                                }}
+                            />
+                        ) : (
+                            <img
+                                src={src || PlaceholderImg}
+                                srcSet={srcSet || undefined}
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                alt={name}
+                                loading="lazy"
+                                decoding="async"
+                                className={serviceCardStyles.responsiveImage}
+                                onError={(e) => {
+                                    e.currentTarget.onerror = null;
+                                    e.currentTarget.src = PlaceholderImg;
+                                }}
+                            />
+                        )}
+                    </picture>
+                ) : (
+                    <img
+                        src={src || PlaceholderImg}
+                        alt={name}
+                        loading="lazy"
+                        decoding="async"
+                        className={serviceCardStyles.fallbackImage}
+                        onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = PlaceholderImg;
+                        }}
+                    />
+                )}
             </div>
-        </section>
+
+            <div className={serviceCardStyles.content}>
+                <h3 className={serviceCardStyles.serviceName}>{name}</h3>
+
+                <div className={serviceCardStyles.buttonContainer}>
+                    {service.available ? (
+                        <Link
+                            to={`/services/${service.id}`}
+                            state={{ service: service.raw || service }}
+                            className={serviceCardStyles.buttonAvailable}
+                            aria-label={`Book ${name}`}
+                        >
+                            <ChevronsRight className="w-5 h-5" aria-hidden="true" />
+                            Book Now
+                        </Link>
+                    ) : (
+                        <button
+                            disabled
+                            className={serviceCardStyles.buttonUnavailable}
+                            aria-label={`${name} not available`}
+                        >
+                            <MousePointer2Off className="w-5 h-5" aria-hidden="true" />
+                            Not Available
+                        </button>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default function ServicePage({ apiBase, previewCount = 9999 }) {
+    const API_BASE = apiBase || "http://localhost:4000";
+    const [services, setServices] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    async function loadServices() {
+        setLoading(true);
+        setError("");
+        try {
+            const res = await fetch(`${API_BASE}/api/services`);
+            const json = await res.json().catch(() => null);
+
+            if (!res.ok) {
+                const msg =
+                    (json && json.message) || `Failed to load services (${res.status})`;
+                setError(msg);
+                setServices([]);
+                setLoading(false);
+                return;
+            }
+
+            const items = (json && (json.data || json)) || [];
+            const normalized = (Array.isArray(items) ? items : []).map((s) => {
+                const id = s._id || s.id;
+                const image = s.imageUrl || s.image || s.imageSmall || "";
+                const available =
+                    typeof s.available === "boolean"
+                        ? s.available
+                        : typeof s.availability === "string"
+                            ? s.availability.toLowerCase() === "available"
+                            : s.availability === "Available" || s.available === true;
+
+                return {
+                    id,
+                    name: s.name || "Service",
+                    shortDescription: s.shortDescription || s.about || "",
+                    image,
+                    imageSmall: s.imageSmall || null,
+                    imageMedium: s.imageMedium || null,
+                    imageLarge: s.imageLarge || null,
+                    imageSrcSet: s.imageSrcSet || null,
+                    imageWebp: s.imageWebp || null,
+                    price: s.price ?? s.fee ?? 0,
+                    available,
+                    raw: s,
+                };
+            });
+
+            setServices(normalized);
+        } catch (err) {
+            console.error("load services error:", err);
+            setError("Network error while loading services.");
+            setServices([]);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        loadServices();
+
+    }, [API_BASE]);
+
+    const shown = services.slice(0, previewCount);
+
+    return (
+        <div className={servicePageStyles.pageContainer}>
+            <div className={servicePageStyles.maxWidthContainer}>
+                <header className={servicePageStyles.header}>
+                    <h1 className={servicePageStyles.title}>Our Diagnostic Services</h1>
+                    <p className={servicePageStyles.subtitle}>
+                        Safe, accurate & reliable testing.
+                    </p>
+                </header>
+
+
+                {error && (
+                    <div className={servicePageStyles.errorContainer}>
+                        <div className={servicePageStyles.errorText}>{error}</div>
+                        <button
+                            onClick={loadServices}
+                            className={servicePageStyles.retryButton}
+                        >
+                            Retry
+                        </button>
+                    </div>
+                )}
+
+                {/* Grid */}
+                {loading ? (
+                    <section className={servicePageStyles.skeletonGrid}>
+                        {Array.from({ length: 8 }).map((_, i) => (
+                            <div key={i} className={servicePageStyles.skeletonCard}>
+                                <div className={servicePageStyles.skeletonImage} />
+                                <div className={servicePageStyles.skeletonText1} />
+                                <div className={servicePageStyles.skeletonText2} />
+                                <div className={servicePageStyles.skeletonButton} />
+                            </div>
+                        ))}
+                    </section>
+                ) : (
+                    <section className={servicePageStyles.servicesGrid}>
+                        {shown.length > 0 ? (
+                            shown.map((s) => <ServiceCard key={s.id || s.name} service={s} />)
+                        ) : (
+                            <div className={servicePageStyles.emptyState}>
+                                No services available.
+                            </div>
+                        )}
+                    </section>
+                )}
+            </div>
+        </div>
     );
 }
-
-export { SERVICES };
