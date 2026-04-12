@@ -100,7 +100,7 @@ export default function DoctorDetailPage() {
   function handleImage(e) {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
- 
+
     if (form.imagePreview && form.imageFile) {
       try {
         URL.revokeObjectURL(form.imagePreview);
@@ -117,7 +117,7 @@ export default function DoctorDetailPage() {
   }
 
   function removeImage() {
-   
+
     if (form.imagePreview && form.imageFile) {
       try {
         URL.revokeObjectURL(form.imagePreview);
@@ -143,7 +143,7 @@ export default function DoctorDetailPage() {
       return;
     }
 
-    
+
     if (slotDate < today) {
       showToast("error", "Cannot add a slot in the past");
       return;
@@ -253,7 +253,7 @@ export default function DoctorDetailPage() {
 
       if (form.imageFile) fd.append("image", form.imageFile);
 
-      const API_BASE = "http://localhost:4000/api";
+      const API_BASE = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : "http://localhost:4000/api";
 
       const res = await fetch(`${API_BASE}/doctors`, {
         method: "POST",
@@ -446,7 +446,7 @@ export default function DoctorDetailPage() {
             onChange={(e) => {
               const v = e.target.value;
 
-              
+
               if (v === "") {
                 setForm((p) => ({ ...p, rating: "" }));
                 return;
@@ -455,16 +455,16 @@ export default function DoctorDetailPage() {
               const n = Number(v);
               if (Number.isNaN(n)) return;
 
-             
+
               const clamped = Math.max(1, Math.min(5, n));
 
-           
+
               const fixed = Math.round(clamped * 10) / 10;
 
               setForm((p) => ({ ...p, rating: fixed.toString() }));
             }}
             onBlur={() => {
-              
+
               setForm((p) => {
                 if (!p.rating) return p;
                 const n = Number(p.rating);
@@ -620,7 +620,7 @@ export default function DoctorDetailPage() {
             <button
               type="submit"
               disabled={loading}
-              className={s.submitButton + " " + s.cursorPointer + " " + 
+              className={s.submitButton + " " + s.cursorPointer + " " +
                 (loading ? s.submitButtonDisabled : s.submitButtonEnabled)}
             >
               {loading ? "Adding..." : "Add Doctor to Team"}
@@ -632,7 +632,7 @@ export default function DoctorDetailPage() {
       {/* TOAST */}
       {toast.show && (
         <div
-          className={s.toastContainer + " " + 
+          className={s.toastContainer + " " +
             (toast.type === "success" ? s.toastSuccess : s.toastError)}
         >
           {toast.type === "success" ? (
