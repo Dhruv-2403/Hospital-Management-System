@@ -116,14 +116,27 @@ export default function Navbar() {
                         <div className={navbarStyles.rightContainer}>
                             {/* {patient logged out} */}
                             <SignedOut>
-                                {/* Doctor Admin */}
+                                {/* Doctor Login */}
                                 <Link
                                     to="/doctor-admin/login"
                                     className={navbarStyles.doctorAdminButton}
                                 >
                                     <UserIcon className={navbarStyles.doctorAdminIcon} />
                                     <span className={navbarStyles.doctorAdminText}>
-                                        Doctor Admin
+                                        Doctor Login
+                                    </span>
+                                </Link>
+
+                                {/* Admin Panel */}
+                                <Link
+                                    to="http://localhost:5174"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={navbarStyles.adminPanelButton}
+                                >
+                                    <UserIcon className={navbarStyles.adminPanelIcon} />
+                                    <span className={navbarStyles.adminPanelText}>
+                                        Admin Panel
                                     </span>
                                 </Link>
 
@@ -133,7 +146,7 @@ export default function Navbar() {
                                     className={navbarStyles.loginButton}
                                 >
                                     <Key className={navbarStyles.loginIcon} />
-                                    Login
+                                    Patient Login
                                 </button>
                             </SignedOut>
 
@@ -184,7 +197,16 @@ export default function Navbar() {
                                     onClick={() => setIsOpen(false)}
                                     className={navbarStyles.mobileDoctorAdminButton}
                                 >
-                                    Doctor Admin
+                                    Doctor Login
+                                </Link>
+                                <Link
+                                    to="http://localhost:5174"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={() => setIsOpen(false)}
+                                    className={navbarStyles.mobileAdminPanelButton}
+                                >
+                                    Admin Panel
                                 </Link>
                                 <div className={navbarStyles.mobileLoginContainer}>
                                     <button
@@ -194,7 +216,7 @@ export default function Navbar() {
                                         }}
                                         className={navbarStyles.mobileLoginButton}
                                     >
-                                        Login
+                                        Patient Login
                                     </button>
                                 </div>
                             </SignedOut>

@@ -12,7 +12,7 @@ import ServiceDetailPage from "./pages/ServiceDetailPage/ServiceDetailPage";
 import Appointments from "./pages/Appointments/Appointments";
 import Login from "./pages/Login/Login";
 
-// Doctor Admin
+// Doctor Login
 import DHome from "./pages/DHome/DHome";
 import List from "./pages/List/List";
 import EditProfile from "./pages/EditProfile/EditProfile";
@@ -103,7 +103,7 @@ const App = () => {
             element={<VerifyServicePaymentPage />}
           />
 
-          {/* Doctor Admin */}
+          {/* Doctor Login Routes */}
           <Route path="/doctor-admin/:id" element={<DHome />} />
           <Route path="/doctor-admin/:id/appointments" element={<List />} />
           <Route

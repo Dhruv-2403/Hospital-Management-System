@@ -55,7 +55,7 @@ Follow these steps to set up the project locally on your machine.
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YourUsername/Hospital-Management-System.git
+git clone https://github.com/Dhruv-2403/Hospital-Management-System.git
 cd Hospital-Management-System
 ```
 
@@ -114,6 +114,95 @@ npm run dev
 cd admin
 npm run dev
 ```
+
+## How the Application Works
+
+### Architecture Overview
+MediCare+ is a full-stack healthcare platform built with three main components: a patient-facing frontend application, an admin dashboard for doctors and administrators, and a backend API server. The frontend runs on port 5173, the admin panel on port 5174, and the backend API on port 4000. All three applications communicate with a MongoDB database for data storage and integrate with external services including Clerk for authentication, Stripe for payments, and Cloudinary for image storage.
+
+### Application Flow
+
+#### 1. Patient Journey (Frontend)
+1. **Browse & Search**: Patients visit the homepage and browse doctors by specialty or search for specific services
+2. **View Profiles**: Click on a doctor to view detailed profile including qualifications, experience, fees, and availability
+3. **Book Appointment**: Select date and time slot, fill in patient details (name, age, gender, mobile)
+4. **Payment**: Choose payment method (Cash/Online via Stripe)
+5. **Confirmation**: Receive appointment confirmation with booking details
+6. **Manage**: View and track appointments in the patient portal
+
+#### 2. Doctor/Admin Journey (Admin Panel)
+1. **Authentication**: Secure login using Clerk authentication
+2. **Dashboard**: View statistics including total appointments, completed consultations, and revenue
+3. **Manage Doctors**: Add new doctors with profiles, specializations, fees, and schedules
+4. **Manage Services**: Add/edit hospital services (Lab Tests, X-Ray, Surgery Consultations, etc.)
+5. **Appointments**: View all bookings, update status (Pending → Confirmed → Completed)
+6. **Service Bookings**: Manage service-specific appointments separately
+
+#### 3. Backend API Workflow
+
+**Core API Endpoints:**
+- `/api/doctors` - CRUD operations for doctor profiles
+- `/api/appointments` - Handle patient appointment bookings
+- `/api/services` - Manage hospital services
+- `/api/service-appointments` - Service-specific bookings
+
+**Data Models:**
+- **Doctor**: Stores doctor info (name, specialization, fees, schedule, availability)
+- **Appointment**: Patient bookings with doctor, date/time, payment status
+- **Service**: Hospital services with pricing, slots, and availability
+- **ServiceAppointment**: Bookings for specific services
+
+**Authentication & Security:**
+- Clerk middleware validates user sessions
+- JWT tokens for API authentication
+- Role-based access control for admin operations
+- CORS enabled for cross-origin requests
+
+**Payment Processing:**
+1. Patient initiates booking with Stripe payment
+2. Backend creates Stripe checkout session
+3. Stripe redirects to success/cancel URL
+4. Backend verifies payment and confirms appointment
+5. Appointment status updated to "Confirmed" and "Paid"
+
+**Image Management:**
+- Doctor/service images uploaded via Multer middleware
+- Images stored in Cloudinary cloud storage
+- URLs saved in MongoDB for quick retrieval
+
+### Technology Integration
+
+**Frontend ↔ Backend Communication:**
+- Axios for HTTP requests to REST API
+- React Router for client-side navigation
+- React Hot Toast for user notifications
+- State management via React hooks
+
+**Admin ↔ Backend Communication:**
+- Similar REST API integration
+- Clerk authentication for secure access
+- Real-time data updates on dashboard
+
+**Backend ↔ Database:**
+- Mongoose ODM for MongoDB operations
+- Schema validation and indexing
+- Timestamps for audit trails
+
+**External Services:**
+- **Clerk**: Handles user authentication and session management
+- **Stripe**: Processes online payments securely
+- **Cloudinary**: Stores and delivers media assets
+
+### Key Workflows
+
+**Appointment Booking Flow:**
+The patient selects a doctor from the listings, chooses an available date and time slot, fills in their personal details including name, age, gender, and mobile number, then initiates payment through Stripe. After successful payment via Stripe checkout, the backend verifies the transaction, confirms the booking, saves the appointment to MongoDB, and displays a confirmation message to the patient.
+
+**Doctor Management Flow:**
+An admin logs into the secure admin panel, navigates to the Add Doctor section, uploads a profile image which gets stored in Cloudinary, fills in the doctor's details including name, specialization, qualifications, experience, fees, and availability schedule. The backend validates all the information, saves it to MongoDB, and the doctor immediately appears in the patient-facing listings.
+
+**Service Booking Flow:**
+Patients browse available hospital services like Lab Tests or X-Ray scans, select a specific service, choose an available time slot, provide their contact details, make payment through Stripe, and upon successful payment, the backend confirms the booking, creates a service appointment record in the database, and displays a confirmation to the patient.
 
 ## Features Deep Dive
 - **Automated Payments**: Uses Stripe Webhooks or Success/Cancel redirects to verify payment status before confirming appointments.

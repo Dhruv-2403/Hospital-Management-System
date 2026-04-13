@@ -540,37 +540,34 @@ export const homeDoctorsStyles = {
 
 export const loginPageStyles = {
   // Main container
-  mainContainer: "min-h-screen flex items-center justify-center bg-linear-to-br from-green-50 via-emerald-100 to-green-200 relative font-serif overflow-hidden",
+  mainContainer: "min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-green-50 to-emerald-100 relative font-['Poppins'] overflow-hidden p-4",
 
   // Back button
-  backButton: "absolute top-6 left-6 cursor-pointer flex items-center gap-2 text-green-800 font-semibold hover:text-green-600 transition-all duration-300",
+  backButton: "absolute top-6 left-6 cursor-pointer flex items-center gap-2 text-emerald-700 font-semibold hover:text-emerald-900 transition-all duration-300 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-md hover:shadow-lg z-10",
   backButtonIcon: "w-5 h-5",
 
   // Login card
-  loginCard: "relative z-10 bg-white/60 backdrop-blur-xl shadow-2xl rounded-3xl p-8 w-[90%] max-w-md border border-green-200 transition-all duration-500 hover:shadow-green-300/50",
+  loginCard: "relative z-10 bg-white/90 backdrop-blur-xl shadow-2xl rounded-3xl p-8 sm:p-10 w-full max-w-md border border-emerald-200 transition-all duration-500 hover:shadow-emerald-300/50",
 
   // Logo
   logoContainer: "flex justify-center mb-6",
-  logo: "w-28 h-28 object-contain drop-shadow-lg",
+  logo: "w-24 h-24 object-contain drop-shadow-lg",
 
   // Header
-  title: "text-3xl font-bold text-center text-emerald-700 tracking-wide mb-2",
-  subtitle: "text-center text-green-600 mb-6 text-sm",
+  title: "text-3xl sm:text-4xl font-bold text-center bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent tracking-tight mb-2",
+  subtitle: "text-center text-emerald-600 mb-8 text-sm sm:text-base",
 
   // Form
   form: "space-y-5",
 
   // Input fields
-  input: "w-full px-5 py-3 rounded-full border border-green-300 bg-white/80",
+  input: "w-full px-5 py-3.5 rounded-full border-2 border-emerald-200 bg-white/80 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 outline-none transition-all duration-300 text-gray-700 placeholder-emerald-400",
 
   // Submit button
-  submitButton: "w-full py-3 bg-linear-to-r from-emerald-400 to-green-600 text-white font-semibold rounded-full",
-
-  // Toast styles (kept in component since they're inline)
-  // These remain in the component as they're JS objects, not CSS classes
+  submitButton: "w-full py-3.5 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100",
 
   // Responsive adjustments
-  responsiveCard: "p-8 w-[90%] max-w-md"
+  responsiveCard: "p-8 sm:p-10 w-full max-w-md"
 };
 
 // Add to dummyStyles.js if you want to extract toast styles too
@@ -632,6 +629,12 @@ export const navbarStyles = {
   doctorAdminButton: "btn-add hidden lg:inline-flex items-center gap-2 px-3 py-2 rounded-full text-sm font-semibold transition-transform duration-200",
   doctorAdminIcon: "w-4 h-4",
   doctorAdminText: "hidden lg:text-xs lg:whitespace-nowrap sm:inline-block",
+  
+  // Admin Panel button
+  adminPanelButton: "btn-add hidden lg:inline-flex items-center gap-2 px-3 py-2 rounded-full text-sm font-semibold transition-transform duration-200 bg-purple-50 border-purple-300 hover:bg-purple-100",
+  adminPanelIcon: "w-4 h-4 text-purple-600",
+  adminPanelText: "hidden lg:text-xs lg:whitespace-nowrap sm:inline-block text-purple-700",
+  
   loginButton: "btn-login hidden lg:flex lg:text-sm items-center gap-2 bg-linear-to-r from-emerald-400 to-green-600 text-white px-6 py-2.5 rounded-full font-semibold hover:shadow-xl transition-all duration-300 cursor-default",
   loginIcon: "w-4 h-4",
 
@@ -647,6 +650,7 @@ export const navbarStyles = {
 
   // Mobile signed out buttons
   mobileDoctorAdminButton: "w-full flex items-center justify-center gap-2 py-2.5 rounded-full border border-emerald-200 bg-white text-sm font-semibold hover:bg-emerald-50 transition-all",
+  mobileAdminPanelButton: "w-full flex items-center justify-center gap-2 py-2.5 rounded-full border border-purple-200 bg-purple-50 text-sm font-semibold hover:bg-purple-100 transition-all text-purple-700",
   mobileLoginContainer: "w-full mt-3",
   mobileLoginButton: "w-full cursor-default md:rounded-full flex items-center justify-center gap-2 bg-linear-to-r from-emerald-500 to-green-600 text-white py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all",
 
@@ -1125,58 +1129,58 @@ export const doctorDetailStyles = {
 
 
 export const navbarStylesDr = {
-  // Main navbar
-  navContainer: "fixed top-8 left-1/2 -translate-x-1/2 z-50 w-full md:max-w-2xl lg:max-w-4xl px-4 py-0 rounded-full bg-white/80 backdrop-blur-md border border-emerald-100 shadow-2xl flex items-center justify-between gap-3 font-serif transition-all duration-300 hover:shadow-emerald-200/80 hover:-translate-y-0.5",
+  // Main navbar - Fixed positioning with proper alignment
+  navContainer: "fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[90rem] px-4 sm:px-6 py-3 rounded-full bg-white/90 backdrop-blur-lg border border-emerald-200 shadow-2xl flex items-center justify-between gap-4 font-['Poppins'] transition-all duration-300 hover:shadow-emerald-300/60",
 
-  // Left brand section
-  leftBrand: "flex items-center gap-3",
-  logoContainer: "w-20 h-20 flex items-center justify-center rounded-full transform transition-all duration-300 hover:rotate-1 overflow-hidden",
+  // Left brand section - Properly aligned
+  leftBrand: "flex items-center gap-2 sm:gap-3 flex-shrink-0",
+  logoContainer: "w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-full transform transition-all duration-300 hover:scale-105 overflow-hidden flex-shrink-0",
   logoImage: "w-full h-full object-contain p-1",
-  brandTextContainer: "md:block",
-  brandTitle: "text-3xl text-emerald-700 font-semibold tracking-wide",
-  brandSubtitle: "text-xs text-emerald-600",
+  brandTextContainer: "hidden sm:block",
+  brandTitle: "text-lg sm:text-xl md:text-2xl text-emerald-700 font-bold tracking-tight leading-tight",
+  brandSubtitle: "text-[10px] sm:text-xs text-emerald-600 leading-tight",
 
-  // Desktop menu
-  desktopMenu: "hidden lg:flex flex-1 justify-center",
-  desktopMenuItems: "flex items-center gap-2 px-2",
+  // Desktop menu - Centered with proper spacing
+  desktopMenu: "hidden lg:flex flex-1 justify-center items-center",
+  desktopMenuItems: "flex items-center gap-1 px-2 bg-emerald-50/50 rounded-full p-1",
 
-  // Link styles
-  baseLink: "relative flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 transform",
-  activeLink: "bg-emerald-600 text-white shadow-lg scale-105 ring-2 ring-emerald-200",
-  inactiveLink: "text-emerald-700 hover:bg-emerald-50 hover:text-emerald-900 hover:-translate-y-0.5 hover:shadow",
+  // Link styles - Better alignment
+  baseLink: "relative flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 whitespace-nowrap",
+  activeLink: "bg-emerald-600 text-white shadow-lg scale-105",
+  inactiveLink: "text-emerald-700 hover:bg-white hover:text-emerald-900 hover:shadow-md",
 
   // Link content
-  linkContent: "relative flex items-center gap-2",
-  linkIcon: "opacity-90",
-  linkText: "text-[13px]",
+  linkContent: "flex items-center justify-center gap-2",
+  linkIcon: "w-4 h-4",
+  linkText: "text-sm font-semibold",
 
-  // Right side actions
-  rightActions: "flex items-center gap-3",
+  // Right side actions - Properly aligned
+  rightActions: "flex items-center gap-2 sm:gap-3 flex-shrink-0",
 
-  // Logout button (desktop)
-  logoutButtonDesktop: "hidden lg:flex items-center gap-2 px-4 py-2 rounded-full bg-white text-emerald-700 border border-emerald-200 shadow-sm text-sm font-semibold transition-all duration-200 transform hover:scale-105 hover:-translate-y-0.5",
+  // Logout button (desktop) - Better styling
+  logoutButtonDesktop: "hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-rose-500 to-red-600 text-white shadow-md text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105",
 
-  // Hamburger menu buttons
-  hamburgerButtonMd: "md:hidden p-2 rounded-md hover:bg-emerald-50 transition-colors",
-  hamburgerButtonLg: "hidden md:flex lg:hidden p-2 rounded-md hover:bg-emerald-50 transition-colors",
+  // Hamburger menu buttons - Properly sized
+  hamburgerButtonMd: "md:hidden p-2 rounded-full hover:bg-emerald-50 transition-colors text-emerald-700",
+  hamburgerButtonLg: "hidden md:flex lg:hidden p-2 rounded-full hover:bg-emerald-50 transition-colors text-emerald-700",
 
-  // Mobile/tablet menu
+  // Mobile/tablet menu - Better positioning
   mobileMenuContainer: (isOpen) =>
-    `lg:hidden fixed top-30 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-md bg-white/95 backdrop-blur-md border border-emerald-100 rounded-2xl shadow-lg transform origin-top transition-all duration-200 ${isOpen ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 -translate-y-2 pointer-events-none"}`,
+    `lg:hidden fixed top-24 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-md bg-white/95 backdrop-blur-lg border border-emerald-200 rounded-2xl shadow-2xl transform origin-top transition-all duration-300 ${isOpen ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 -translate-y-4 pointer-events-none"}`,
 
-  mobileMenuContent: "flex flex-col p-3 gap-2",
+  mobileMenuContent: "flex flex-col p-4 gap-2",
 
-  // Mobile nav links
-  mobileBaseLink: "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150",
-  mobileActiveLink: "bg-emerald-50 text-emerald-900",
+  // Mobile nav links - Better alignment
+  mobileBaseLink: "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200",
+  mobileActiveLink: "bg-emerald-600 text-white shadow-md",
   mobileInactiveLink: "text-emerald-800 hover:bg-emerald-50",
 
-  // Mobile logout button
-  mobileLogoutButton: "mt-2 px-4 py-2 rounded-full text-center bg-emerald-500 text-white font-semibold text-sm shadow-sm transition-transform duration-150 hover:scale-105 w-full",
+  // Mobile logout button - Better styling
+  mobileLogoutButton: "mt-3 px-4 py-3 rounded-full text-center bg-gradient-to-r from-rose-500 to-red-600 text-white font-semibold text-sm shadow-md transition-all duration-300 hover:shadow-lg w-full",
   mobileLogoutContent: "flex items-center justify-center gap-2",
 
-  // Spacer
-  spacer: "h-20 lg:h-20",
+  // Spacer - Proper height for fixed navbar
+  spacer: "h-24",
 
   // Icon sizes
   iconSmall: "size={16}",

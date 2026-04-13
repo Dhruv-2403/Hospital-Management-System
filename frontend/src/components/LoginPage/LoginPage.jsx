@@ -101,7 +101,7 @@ export default function LoginPage({ apiBase }) {
           <img src={logo} alt="Doctor Logo" className={loginPageStyles.logo} />
         </div>
 
-        <h2 className={loginPageStyles.title}>Doctor Admin</h2>
+        <h2 className={loginPageStyles.title}>Doctor Login</h2>
         <p className={loginPageStyles.subtitle}>
           Sign in to manage your profile & schedule
         </p>

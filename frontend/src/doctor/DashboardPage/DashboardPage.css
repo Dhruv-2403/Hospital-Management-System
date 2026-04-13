@@ -1,7 +1,7 @@
 
 /* Page layout */
 .db-page-container {
-  min-height: 100vh;
+  min-h: 100vh;
   font-family: serif;
   padding-top: 4rem;
   padding: 1rem;
