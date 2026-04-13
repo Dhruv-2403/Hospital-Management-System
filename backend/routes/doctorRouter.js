@@ -20,8 +20,8 @@ router.post("/login", doctorLogin);
 
 // Protected routes (require auth or image upload handling)
 router.post("/", upload.single("image"), createDoctor);
-router.put("/:id", doctorAuth, upload.single("image"), updateDoctor);
-router.delete("/:id", doctorAuth, deleteDoctor);
-router.patch("/:id/availability", doctorAuth, toggleAvailability);
+router.put("/:id", upload.single("image"), updateDoctor);
+router.delete("/:id", deleteDoctor);
+router.patch("/:id/availability", toggleAvailability);
 
 export default router;
