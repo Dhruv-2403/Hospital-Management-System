@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+import { API_URL } from "./src/utils/api";
+
+const API_BASE = API_URL;
 
 const VerifyServicePaymentPage = () => {
     const location = useLocation();

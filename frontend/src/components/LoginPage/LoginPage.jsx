@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { API_BASE as DEFAULT_API_BASE } from "../../utils/api";
 import logo from "../../assets/logo.png";
 import { ArrowLeft } from "lucide-react";
 import { loginPageStyles, toastStyles } from "../../assets/dummyStyles";
@@ -8,7 +9,7 @@ import { loginPageStyles, toastStyles } from "../../assets/dummyStyles";
 const STORAGE_KEY = "doctorToken_v1";
 
 export default function LoginPage({ apiBase }) {
-  const API_BASE = apiBase || import.meta.env.VITE_API_URL || "http://localhost:4000";
+  const API_BASE = apiBase || DEFAULT_API_BASE;
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [busy, setBusy] = useState(false);
   const navigate = useNavigate();

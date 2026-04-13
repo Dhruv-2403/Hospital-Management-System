@@ -11,8 +11,10 @@ import {
 } from "lucide-react";
 import { doctorsPageStyles } from "../../assets/dummyStyles";
 
+import { API_URL as DEFAULT_API_URL } from "../../utils/api";
+
 const DoctorsPage = ({ apiBase }) => {
-  const API_BASE = apiBase || import.meta.env.VITE_API_URL || "http://localhost:4000";
+  const API_BASE = apiBase || DEFAULT_API_URL;
 
   const [allDoctors, setAllDoctors] = useState([]);
   const [loading, setLoading] = useState(true);

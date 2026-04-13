@@ -18,8 +18,9 @@ import {
     iconSize,
 } from "../../assets/dummyStyles";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
-const API = axios.create({ baseURL: API_BASE });
+import { API_URL } from "../../utils/api";
+
+const API = axios.create({ baseURL: API_URL });
 
 function pad(n) {
     return String(n ?? 0).padStart(2, "0");

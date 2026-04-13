@@ -55,10 +55,12 @@ function dedupeAndSortSchedule(schedule = {}) {
     return out;
 }
 
+import { API_BASE as DEFAULT_API_BASE } from "../../utils/api";
+
 export default function EditProfilePage({ apiBase }) {
     const { id } = useParams();
     const navigate = useNavigate();
-    const API_BASE = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api/doctors` : "http://localhost:4000/api/doctors";
+    const API_BASE = DEFAULT_API_BASE + "/doctors";
 
     const [doc, setDoc] = useState(null);
     const [editing, setEditing] = useState(false);

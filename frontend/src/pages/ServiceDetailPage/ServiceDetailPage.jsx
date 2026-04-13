@@ -11,9 +11,9 @@ import {
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@clerk/clerk-react";
 import toast, { Toaster } from "react-hot-toast";
-import { serviceDetailStyles, iconSize } from "../../assets/dummyStyles";
+import { API_URL } from "../../utils/api";
 
-const DEFAULT_HOST = import.meta.env.VITE_API_URL || "http://localhost:4000".replace(/\/$/, "");
+const DEFAULT_HOST = API_URL.replace(/\/$/, "");
 
 export default function ServiceDetail() {
   const { id } = useParams();

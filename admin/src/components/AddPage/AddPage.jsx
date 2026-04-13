@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { doctorDetailStyles as s } from "../../assets/dummyStyles";
 
+import { API_BASE } from "../../utils/api";
 function timeStringToMinutes(t) {
   if (!t) return 0;
   const [hhmm, ampm] = t.split(" ");
@@ -253,7 +254,6 @@ export default function DoctorDetailPage() {
 
       if (form.imageFile) fd.append("image", form.imageFile);
 
-      const API_BASE = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : "http://localhost:4000/api";
 
       const res = await fetch(`${API_BASE}/doctors`, {
         method: "POST",

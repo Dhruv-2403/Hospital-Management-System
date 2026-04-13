@@ -14,7 +14,9 @@ import {
 } from "lucide-react";
 import { serviceAppointmentsStyles } from "../../assets/dummyStyles";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+import { API_URL } from "../../utils/api";
+
+const API_BASE = API_URL;
 
 
 function formatTwo(n) {

@@ -23,7 +23,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { doctorDetailStyles } from "../../assets/dummyStyles";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+import { API_URL as API_BASE } from "../../utils/api";
 
 function getScheduleDates(schedule) {
   if (!schedule) return [];

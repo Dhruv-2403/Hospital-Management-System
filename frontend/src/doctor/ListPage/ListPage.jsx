@@ -3,7 +3,9 @@ import { Search, X, Phone, Calendar } from "lucide-react";
 import { useParams } from "react-router-dom";
 import { listPageStyles } from "../../assets/dummyStyles";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+import { API_URL } from "../../utils/api";
+
+const API_BASE = API_URL;
 
 function parseDateTime(date, time) {
   return new Date(`${date}T${time}:00`);

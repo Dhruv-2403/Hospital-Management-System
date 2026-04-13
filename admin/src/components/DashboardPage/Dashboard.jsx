@@ -10,7 +10,9 @@ import {
 } from "lucide-react";
 import { dashboardStyles as s } from "../../assets/dummyStyles";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000";
+import { API_URL } from "../../utils/api";
+
+const API_BASE = API_URL;
 
 const PATIENT_COUNT_API = `${API_BASE}/api/appointments/patients/count`;
 

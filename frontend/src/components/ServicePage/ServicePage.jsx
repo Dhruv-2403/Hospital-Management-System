@@ -106,8 +106,10 @@ const ServiceCard = ({ service }) => {
     );
 };
 
+import { API_URL as DEFAULT_API_URL } from "../../utils/api";
+
 export default function ServicePage({ apiBase, previewCount = 9999 }) {
-    const API_BASE = apiBase || import.meta.env.VITE_API_URL || "http://localhost:4000";
+    const API_BASE = apiBase || DEFAULT_API_URL;
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
