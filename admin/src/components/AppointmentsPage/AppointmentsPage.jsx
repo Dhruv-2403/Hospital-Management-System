@@ -170,7 +170,7 @@ export default function AppointmentsPage() {
       setShowAll(true);
 
       const res = await fetch(`${API_BASE}/api/appointments/${id}/cancel`, {
-        method: "POST",
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
       });
       if (!res.ok) {

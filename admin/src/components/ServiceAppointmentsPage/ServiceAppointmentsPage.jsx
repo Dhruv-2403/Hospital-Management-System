@@ -541,7 +541,7 @@ export default function ServiceAppointmentsPage() {
       const res = await fetch(
         `${API_BASE}/api/service-appointments/${id}/cancel`,
         {
-          method: "POST",
+          method: "PATCH",
           headers: { "Content-Type": "application/json" },
         }
       );

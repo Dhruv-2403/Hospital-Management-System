@@ -255,7 +255,7 @@ export default function DoctorDetailPage() {
       if (form.imageFile) fd.append("image", form.imageFile);
 
 
-      const res = await fetch(`${API_BASE}/doctors`, {
+      const res = await fetch(`${API_BASE}/api/doctors`, {
         method: "POST",
         body: fd,
       });
