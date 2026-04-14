@@ -63,16 +63,13 @@ cd Hospital-Management-System
 You need to install dependencies for the root project and each sub-module:
 
 ```bash
-# Root directory
+
 npm install
 
-# Backend
 cd backend && npm install
 
-# Frontend (Patient App)
 cd ../frontend && npm install
-
-# Admin (Management App)
+  
 cd ../admin && npm install
 ```
 
@@ -103,7 +100,7 @@ cd backend
 node index.js
 ```
 
-**Terminal 2:when i Patient Frontend**
+**Terminal 2: Patient Frontend**
 ```bash
 cd frontend
 npm run dev
@@ -115,10 +112,92 @@ cd admin
 npm run dev
 ```
 
-## How the Application Works
+## Demo Credentials
 
-### Architecture Overview
-MediCare+ is a full-stack healthcare platform built with three main components: a patient-facing frontend application, an admin dashboard for doctors and administrators, and a backend API server. The frontend runs on port 5173, the admin panel on port 5174, and the backend API on port 4000. All three applications communicate with a MongoDB database for data storage and integrate with external services including Clerk for authentication, Stripe for payments, and Cloudinary for image storage.
+To test the application, follow these step-by-step login instructions for each user type:
+
+### **1. Doctor Login Portal** 
+**URL:** `http://localhost:5173/doctor-admin/login`
+
+**Step-by-Step Login:**
+1. Open the browser and navigate to the URL above
+2. Enter the following credentials:
+   ```
+   Email: doctor@medicare.com
+   Password: doctor@123
+   ```
+3. Click "Login" to access the doctor dashboard
+
+**Features to Test After Login:**
+- View appointment dashboard with statistics
+- Manage patient appointments (confirm, reschedule, complete)
+- Update doctor profile and availability
+- View earnings and patient count
+
+---
+
+### **2. Admin Panel Login**
+**URL:** `http://localhost:5174`
+
+**Step-by-Step Login:**
+1. Open the browser and navigate to the URL above
+2. Click on "Sign In" button or can use clerk authentication
+3. Enter the following credentials:
+   ```
+   Email: admin@medicare.com
+   Password: admin@123
+   ```
+4. Click "Continue" to access the admin dashboard
+
+**Features to Test After Login:**
+- Add new doctors to the system
+- Add hospital services (Lab Tests, X-Ray, etc.)
+- View all appointments across doctors
+- Manage service bookings
+- Upload doctor profile images
+
+---
+
+### **3. Patient Portal Login**
+**URL:** `http://localhost:5173`
+
+**Step-by-Step Login:**
+1. Open the browser and navigate to the URL above
+2. Click on "Sign In" button in the top right corner
+3. Choose one of the following options:
+   - **Email/Password:** Use the test credentials below
+   - **Google Sign-In:** Use any Google account
+   
+**Test Credentials (Email/Password):**
+   ```
+   Email: patient@test.com
+   Password: Patient@123
+   ```
+4. Click "Continue" to access the patient portal
+
+**Features to Test After Login:**
+- Browse doctors by specialty
+- View doctor profiles with ratings and fees
+- Book appointments with date/time selection
+- Make payments using Stripe test cards
+- View appointment history
+
+---
+
+### **4. Payment Testing (Stripe Test Cards)**
+
+**Step-by-Step Payment:**
+1. Proceed to checkout after booking an appointment
+2. Enter the following test card details:
+   ```
+   Card Number: 4242 4242 4242 4242
+   Expiry: Any future date (e.g., 12/25)
+   CVC: Any 3 digits (e.g. 123)
+   ZIP: Any 5 digits (e.g. 12345)
+   ```
+3. Click "Pay" to complete the transaction
+
+## How the Application Works
 
 ### Application Flow
 
