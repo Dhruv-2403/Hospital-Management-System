@@ -129,7 +129,7 @@ export default function Navbar() {
 
                                 {/* Admin Panel */}
                                 <Link
-                                    to="http://localhost:5174"
+                                    to={import.meta.env.VITE_ADMIN_URL || "http://localhost:5174"}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={navbarStyles.adminPanelButton}
@@ -200,7 +200,7 @@ export default function Navbar() {
                                     Doctor Login
                                 </Link>
                                 <Link
-                                    to="http://localhost:5174"
+                                    to={import.meta.env.VITE_ADMIN_URL || "http://localhost:5174"}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     onClick={() => setIsOpen(false)}
